@@ -772,6 +772,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
                     {...field}
                     label="First Name"
                     fullWidth
+                    required
                     margin="dense"
                     error={!!errors.first_name}
                     helperText={errors.first_name?.message}
@@ -788,6 +789,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
                     {...field}
                     label="Last Name"
                     fullWidth
+                    required
                     margin="dense"
                     error={!!errors.last_name}
                     helperText={errors.last_name?.message}
@@ -891,6 +893,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
                     {...field}
                     label="Contact No"
                     fullWidth
+                    required
                     margin="dense"
                     error={!!errors.contact_no}
                     helperText={
@@ -910,6 +913,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
                     {...field}
                     label="Email"
                     fullWidth
+                    required
                     margin="dense"
                     error={!!errors.email}
                     helperText={errors.email?.message}
@@ -1004,8 +1008,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
 
 function EnhancedTable() {
   const [order, setOrder] = React.useState<"desc" | "asc">("asc");
-  // const [orderBy, setOrderBy] = React.useState<keyof RowType>("person_id");
-  const [orderBy, setOrderBy] = React.useState<keyof RowType | ''>('');
+  const [orderBy, setOrderBy] = React.useState<keyof RowType>("person_id");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

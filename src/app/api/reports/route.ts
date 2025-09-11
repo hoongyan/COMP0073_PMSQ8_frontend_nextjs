@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const limit = searchParams.get('limit') || '100';
   const offset = searchParams.get('offset') || '0';
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('authToken')?.value;
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('authToken')?.value;
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

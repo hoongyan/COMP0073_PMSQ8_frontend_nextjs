@@ -129,11 +129,25 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}): Pro
     });
   
     if (response.status === 401) {
-      throw new Error('Session expired - please sign in again'); // UI handles
+      throw new Error('Session expired - please sign in again');
     }
   
     return response;
   }
+
+  export async function getCurrentUser(): Promise<UserRead> {
+    const response = await fetchWithAuth('/api/auth/users/');
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error('Session expired - please sign in again');
+      }
+      throw new Error('Failed to fetch user data');
+    }
+    
+    return response.json();
+  }
+
 
   export async function logout(): Promise<void> {
     const response = await fetch('/api/auth/logout', {

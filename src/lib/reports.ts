@@ -59,3 +59,49 @@ export async function fetchLinkedPersons(reportId: number): Promise<LinkedPerson
   }
   return response.json();
 }
+
+export async function createScamReport(newReport: Partial<RowType>): Promise<RowType> {
+  const body = {
+    ...newReport,
+    scam_incident_date: newReport.scam_incident_date ? newReport.scam_incident_date.split('T')[0] : undefined,
+    scam_report_date: newReport.scam_report_date ? newReport.scam_report_date.split('T')[0] : undefined,
+    scam_amount_lost: newReport.scam_amount_lost ? parseFloat(newReport.scam_amount_lost) : undefined,
+    status: newReport.status ? newReport.status.toUpperCase() : undefined,
+  };
+  const response = await fetch(`/api/reports`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || `Failed to create report: ${response.statusText}`);
+  }
+  const created = await response.json();
+  return {
+    ...created,
+    report_id: created.report_id,
+    scam_amount_lost: created.scam_amount_lost ? created.scam_amount_lost.toString() : '',
+  };
+}
+
+export async function addLinkedPerson(reportId: number, person: { person_id: number; role: string }): Promise<LinkedPerson> {
+  const response = await fetch(`/api/reports/${reportId}/linked_persons`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ person_id: person.person_id, role: person.role.toLowerCase() }),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || `Failed to add linked person: ${response.statusText}`);
+  }
+  return response.json();
+}
+
+export async function deleteLinkedPerson(reportId: number, personId: number): Promise<void> {
+  const response = await fetch(`/api/reports/${reportId}/linked_persons?person_id=${personId}`, { method: 'DELETE' });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || `Failed to delete linked person: ${response.statusText}`);
+  }
+}

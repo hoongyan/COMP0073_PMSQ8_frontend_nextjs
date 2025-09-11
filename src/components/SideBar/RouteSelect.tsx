@@ -3,10 +3,9 @@
 import React from "react";
 import { IconType } from "react-icons";
 import {
-  FiDollarSign,
-  FiHome,
-  FiLink,
-  FiPaperclip,
+  FiMessageSquare,
+  FiFileText,
+  FiSearch,
   FiUsers,
   FiLogOut,
 } from "react-icons/fi";
@@ -24,17 +23,17 @@ export const RouteSelect = () => {
     {
       title: "AI Conversations",
       path: "/admin/conversations",
-      Icon: FiUsers,
+      Icon: FiMessageSquare,
     },
     {
       title: "Scam Reports",
       path: "/reports",
-      Icon: FiUsers,
+      Icon: FiFileText,
     },
     {
       title: "Persons of Interest Information",
       path: "/persons_info",
-      Icon: FiUsers,
+      Icon: FiSearch,
     },
   ];
 
@@ -47,7 +46,7 @@ export const RouteSelect = () => {
       alert("Logged out successfully!");
       setTimeout(() => {
         router.push("/auth/sign-in");
-      }, 1000); // 1-second delay for user to see alert
+      }, 1000);
     } catch (error) {
       console.error("Logout error:", error);
       alert("Failed to log out. Please try again.");

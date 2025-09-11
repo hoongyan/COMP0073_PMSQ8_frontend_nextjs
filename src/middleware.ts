@@ -30,6 +30,8 @@ export async function middleware(request: NextRequest) {
   if (adminOnlyPaths.some(path => pathname.startsWith(path))) {
     try {
       console.log('Checking admin role for path:', pathname); // Debug
+      
+      console.log('API_URL from env:', process.env.NEXT_PUBLIC_API_URL);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
