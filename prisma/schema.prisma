@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id            Int          @id @default(autoincrement())
+  username          String
+  firstName
+  email         String       @unique
+  password      String
+  name          String?
+  role          String?      
+  addressId     Int?         
+  address       Address?     @relation(fields: [addressId], references: [id])
+  simulations   Simulation[] //initiate multiple simulations
+  messages      Conversation[]    // Users can send/receive messages in simulations
+  createdAt     DateTime     @default(now())
+}
+
+
+model Conversation {
+  id Int @id @default(autoincrement())
+  title String
+  description String?
+}
+
+// Simulation table to track chatbot conversation sessions
+model Simulation {
+  id            Int          @id @default(autoincrement())    
+  userId        Int          
+  user          User         @relation(fields: [userId], references: [id])
+  messages      MessageDetails[]    // Messages within this simulation
+  reports       Reports[]    // Reports linked to this simulation
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  status        String       @default("active") // e.g., "active", "completed", "paused"
+}
+
+// Message table to store conversation details
+model MessageDetails {
+  id            Int          @id @default(autoincrement())
+  content       String       // Text of the message
+  senderType    String       // "user" or "chatbot" to distinguish sender
+  userId        Int?         // Optional: Links to the user who sent (if not chatbot)
+  user          User?        @relation(fields: [userId], references: [id])
+  createdAt     DateTime     @default(now())
+  isBotResponse Boolean      @default(false) // True if sent by chatbot
+}
+
+// Reports table to store reported facts for crime cases
+model Reports {
+  id              Int           @id @default(autoincrement())
+  incidentStart   DateTime?     // When the incident began
+  incidentEnd     DateTime?     // When the incident ended
+  incidentLocation String?      // Location of the crime (e.g., "123 Main St")
+  title           String        // e.g., "Crime Case X: Suspect Report"
+  description     String?       // Optional summary of the report
+  facts           String        // Detailed facts of the crime case
+  simulationId    Int?          // Optional: Links to related simulation
+  simulation      Simulation?   @relation(fields: [simulationId], references: [id])
+  personsOfInterest PersonsOfInterest[] // Links to victims/suspects in this report
+  itemsStolen     ItemStolen[]  // Links to stolen items in this report
+  attachments     Attachment[]  // Links to attachments for this report
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  status          String        @default("draft") // e.g., "draft", "reviewed", "finalized"
+}
+
+// ItemStolen table to store details of stolen items
+model ItemStolen {
+  id            Int          @id @default(autoincrement())
+  itemType      String       // e.g., "electronics", "jewelry"
+  itemBrand     String?      // e.g., "Apple", "Rolex"
+  itemModel     String?      // e.g., "iPhone 14", "Datejust"
+  itemSerialNo  String?      // Serial number for identification
+  reportId      Int          // Links to the report this item belongs to
+  report        Reports      @relation(fields: [reportId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+// Address table to store address details
+model Address {
+  id              Int          @id @default(autoincrement())
+  postalCode      String       // e.g., "12345"
+  streetName      String       // e.g., "Main Street"
+  blockNo         String?      // e.g., "12A"
+  buildingName    String?      // e.g., "Sunrise Apartments"
+  unitNo          String?      // e.g., "#04-15"
+  additionalDetails String?    // e.g., "void deck, near lift"
+  users           User[]       // Users with this address
+  personsOfInterest PersonsOfInterest[] // Victims/suspects with this address
+  createdAt       DateTime     @default(now())
+}
+
+// PersonsOfInterest table for victims and suspects in crime case reports
+model PersonsOfInterest {
+  id              String       @id // String for flexibility (e.g., ID numbers, custom codes)
+  name            String       // Full name of the person
+  dob             DateTime?    // Date of birth (replaced Int for better date handling)
+  sex             String?      // e.g., "male", "female", "other"
+  race            String?      // e.g., "Caucasian", "Asian"
+  nationality     String?      // e.g., "USA", "Singapore"
+  occupation      String?      // e.g., "Teacher", "Unemployed"
+  email           String?      // Optional: Email contact
+  homeNo          String?      // Optional: Home phone number
+  telNo           String?      // Optional: Mobile phone number
+  addressId       Int?         // Optional: Links to address
+  address         Address?     @relation(fields: [addressId], references: [id])
+  languageSpoken  String?      // e.g., "English", "Mandarin"
+  reportRole String?   
+  reportId        Int          // Links to the report this person is associated with
+  report          Reports      @relation(fields: [reportId], references: [id])
+  physicalDetails SuspectPhysicalDetails? // Optional: Links to physical details (for suspects)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+// SuspectPhysicalDetails table for physical characteristics of suspects
+model SuspectPhysicalDetails {
+  id                  Int          @id @default(autoincrement())
+  estimatedHeight     String?      // e.g., "170 cm", "5'10\""
+  hairStyle           String?      // e.g., "short", "bald", "ponytail"
+  build               String?      // e.g., "slim", "muscular", "heavy"
+  hairColour          String?      // e.g., "black", "blonde"
+  complexion          String?      // e.g., "fair", "dark"
+  lastWornAttire      String?      // e.g., "blue jacket, jeans"
+  distinguishingFeatures String?   // e.g., "tattoo on left arm", "scar on face"
+  personOfInterestId  String?      // Links to the suspect in PersonsOfInterest
+  personOfInterest    PersonsOfInterest? @relation(fields: [personOfInterestId], references: [id])
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+}
+
+// Attachment table to store files related to reports
+model Attachment {
+  id               Int          @id @default(autoincrement())
+  attachmentFormat String       // e.g., "jpg", "pdf", "mp4"
+  attachmentURL    String?      // URL to stored file (e.g., cloud storage link)
+  attachmentBlob   Bytes?       // Binary data for the file (if storing directly)
+  reportId         Int          // Links to the report this attachment belongs to
+  report           Reports      @relation(fields: [reportId], references: [id])
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
