@@ -1285,7 +1285,7 @@ function EnhancedTable() {
       >
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
           <TextField
-            placeholder="Search Name/ID/Contact/Email/Occupation/Nationality/Race/Address"
+            placeholder="Search"
             variant="outlined"
             size="small"
             value={searchTerm}
@@ -1551,13 +1551,6 @@ function PersonsOfInterest() {
           >
             Persons of Interest
           </Typography>
-
-          <MuiBreadcrumbs aria-label="Breadcrumb" sx={{ mt: 2 }}>
-            <Link component={NextLink} href="/">
-              Home
-            </Link>
-            <Typography>Persons of Interest</Typography>
-          </MuiBreadcrumbs>
           <Box sx={{ height: "20px" }} />
         </Grid>
         <Grid item xs={12} spacing={6}>

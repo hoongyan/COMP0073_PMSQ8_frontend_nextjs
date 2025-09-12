@@ -1779,12 +1779,6 @@ function UserManagement() {
             User Management
           </Typography>
 
-          <MuiBreadcrumbs aria-label="Breadcrumb" sx={{ mt: 2 }}>
-            <Link component={NextLink} href="/">
-              Home
-            </Link>
-            <Typography>User Management</Typography>
-          </MuiBreadcrumbs>
           <Box sx={{ height: "20px" }} />
         </Grid>
         <Grid item xs={12}>

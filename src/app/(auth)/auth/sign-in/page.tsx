@@ -26,7 +26,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { signin, SigninData } from '@/lib/auth';
 
-// NEW: Validation schema (client-side)
 const signinSchema = yup.object({
   email: yup.string().required('Email is required').email('Invalid email'),
   password: yup.string().required('Password is required').min(8, 'Password must be at least 8 characters'),
@@ -68,10 +67,8 @@ function SignIn() {
         password: data.password,
         rememberMe,
       };
-      // const response = await signin(credentials);
+
       await signin(credentials);
-      // const storage = rememberMe ? localStorage : sessionStorage;
-      // storage.setItem('authToken', response.token);
       
       setSubmissionStatus("success");
       setSubmissionMessage("Login successful! Redirecting...");
@@ -87,24 +84,21 @@ function SignIn() {
     }
   };
 
-  // NEW: If success, show message (optional: could redirect immediately)
   if (submissionStatus === "success") {
     return (
       <Box sx={{ textAlign: 'center', mt: 4 }}>
         <Alert severity="success">{submissionMessage}</Alert>
       </Box>
-    ); // Simplified; integrate into main UI if needed
+    ); 
   }
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header /> {/* Use the imported Header here */}
-
-      {/* Main Content: Centralized Sign-In with Creative Design */}
+      <Header /> 
       <Box
         sx={{
-          minHeight: "calc(100vh - 80px)", // Adjusted height for the header (assuming ~80px; measure and adjust as needed)
+          minHeight: "calc(100vh - 80px)", 
           background: "linear-gradient(135deg, #001f3f 0%, #004080 100%)",
           display: "flex",
           alignItems: "center",
@@ -113,7 +107,6 @@ function SignIn() {
           overflow: "hidden",
         }}
       >
-        {/* Subtle Background Elements */}
         <Box
           sx={{
             position: "absolute",
@@ -126,9 +119,9 @@ function SignIn() {
             opacity: 0.3,
           }}
         />
-        {/* Centralized Sign-In Card */}
+        {/* Sign-In Card */}
         <Fade in timeout={800}>
-          <Container maxWidth="xs"> {/* Narrower for focused form */}
+          <Container maxWidth="xs"> 
             <Box
               sx={{
                 padding: "48px 32px",
@@ -164,7 +157,7 @@ function SignIn() {
                   {errorMessage}
                 </Alert>
               )}
-              {submissionStatus === "error" && ( // NEW: Show API errors
+              {submissionStatus === "error" && ( 
                 <Alert severity="error" sx={{ mb: 3 }}>
                   {submissionMessage}
                 </Alert>
@@ -222,31 +215,34 @@ function SignIn() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  disabled={isSubmitting} // NEW: Disable during submit
+                  disabled={isSubmitting} 
                   sx={{ mt: 3, mb: 2, backgroundColor: "#001f3f" }}
                 >
                   {isSubmitting ? (
-                    <CircularProgress size={24} color="inherit" /> // NEW: Spinner
+                    <CircularProgress size={24} color="inherit" /> 
                   ) : (
                     "Sign In"
                   )}
                 </Button>
                 <Grid container direction="column" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Link href="/auth/sign_up" variant="body2" component={NextLink}>
-                      {"Don't have an account? Sign Up here."}
-                    </Link>
+                    <Button
+                      fullWidth
+                      variant="text"
+                      component={NextLink}
+                      href="/auth/sign-up"  
+                      sx={{ textTransform: 'none' }}  
+                    >
+                      Don't have an account? Sign Up here.
+                    </Button>
                   </Grid>
                   <Grid item>
-                    <Link href="/auth/reset-password" variant="body2" component={NextLink}>
-                      Forgot password?
-                    </Link>
+                    <Typography variant="body2" color="textSecondary">
+                      For password resets please contact administrators directly.
+                    </Typography>
                   </Grid>
                 </Grid>
                 <Box sx={{ mt: 2 }}>
-                  <Link href="/contact-support" variant="body2" component={NextLink}>
-                    Contact Support
-                  </Link>
                 </Box>
               </Box>
             </Box>

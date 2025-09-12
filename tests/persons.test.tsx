@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import PersonsOfInterest, {
@@ -73,7 +73,6 @@ describe("PersonsOfInterest Component", () => {
     expect(
       screen.getByRole("heading", { name: "Persons of Interest", level: 3 })
     ).toBeInTheDocument();
-    expect(screen.getByText("Home")).toBeInTheDocument();
   });
 
   it("fetches and displays persons data in the table", async () => {

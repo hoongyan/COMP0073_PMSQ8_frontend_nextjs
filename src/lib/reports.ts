@@ -1,4 +1,4 @@
-import { RowType } from '@/app/(dashboard)/reports/page'; // Reuse your RowType; update if needed to match backend
+import { RowType } from '@/app/(dashboard)/reports/page'; 
 
 export async function fetchScamReports(): Promise<RowType[]> {
   const response = await fetch(`/api/reports?limit=1000&offset=0`, { cache: 'no-store' });
@@ -34,6 +34,21 @@ export async function updateScamReport(reportId: number, updates: Partial<RowTyp
     scam_amount_lost: updates.scam_amount_lost ? parseFloat(updates.scam_amount_lost) : undefined,
     status: updates.status ? updates.status.toUpperCase() : undefined,
   };
+
+  // Handle unassignment of io
+  if (body.io_in_charge == null || body.io_in_charge === '' || body.io_in_charge === 0) {
+    body.io_in_charge = null;
+    body.status = 'UNASSIGNED';
+  }
+
+  if (body.status === 'UNASSIGNED' && body.io_in_charge != null) {
+    body.io_in_charge = null;
+  }
+
+  if (body.status === 'ASSIGNED' && body.io_in_charge == null) {
+    body.status = 'UNASSIGNED';  
+  }
+
   const response = await fetch(`/api/reports/${reportId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -51,7 +66,6 @@ export async function updateScamReport(reportId: number, updates: Partial<RowTyp
   };
 }
 
-// Optional: If you add fetch for linked_persons separately
 export async function fetchLinkedPersons(reportId: number): Promise<LinkedPerson[]> {
   const response = await fetch(`/api/reports/${reportId}/linked_persons`);
   if (!response.ok) {
@@ -69,6 +83,11 @@ export async function createScamReport(newReport: Partial<RowType>): Promise<Row
     scam_amount_lost: newReport.scam_amount_lost ? parseFloat(newReport.scam_amount_lost) : undefined,
     status: newReport.status ? newReport.status.toUpperCase() : undefined,
   };
+
+  if (body.io_in_charge == null || body.io_in_charge === '' || body.io_in_charge === 0) {
+    body.io_in_charge = null;  
+  }
+
   const response = await fetch(`/api/reports`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -114,5 +133,5 @@ export async function fetchIOs(): Promise<{ user_id: number; full_name: string }
     throw new Error(errorData.error || `Failed to fetch IOs: ${response.statusText}`);
   }
   const data = await response.json();
-  return data.ios;  // Matches backend IOListResponse
+  return data.ios;  
 }

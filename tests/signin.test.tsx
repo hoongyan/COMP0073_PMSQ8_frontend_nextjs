@@ -5,10 +5,8 @@ import SignIn from "@/app/(auth)/auth/sign-in/page";
 import * as authLib from "@/lib/auth";
 import { useSearchParams, useRouter } from "next/navigation";
 
-// Add this line to mock the module
 jest.mock("@/lib/auth");
 
-// Mock Next.js hooks
 jest.mock("next/navigation", () => ({
   useSearchParams: jest.fn(),
   useRouter: jest.fn(),
@@ -21,18 +19,15 @@ describe("SignIn Page", () => {
     // Reset mocks
     jest.clearAllMocks();
 
-    // Mock useSearchParams (no error by default)
     (useSearchParams as jest.Mock).mockReturnValue({
       get: jest.fn().mockReturnValue(null),
     });
 
-    // Mock useRouter
     mockPush = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     });
 
-    // Mock signin function from auth.ts
     (authLib.signin as jest.Mock).mockResolvedValue({
       token: "fake-token",
       token_type: "bearer",
@@ -40,7 +35,7 @@ describe("SignIn Page", () => {
   });
 
   afterEach(() => {
-    jest.useRealTimers(); // Reset timers after each test to avoid affecting others
+    jest.useRealTimers();
   });
 
   it("renders the sign-in form correctly", async () => {
@@ -48,7 +43,6 @@ describe("SignIn Page", () => {
       render(<SignIn />);
     });
 
-    // Check key elements
     expect(
       screen.getByRole("heading", { name: /Staff Sign-In/i })
     ).toBeInTheDocument();
@@ -58,14 +52,6 @@ describe("SignIn Page", () => {
       screen.getByRole("button", { name: /Sign In/i })
     ).toBeInTheDocument();
     expect(screen.getByText(/Remember me/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", {
-        name: /Don't have an account\? Sign Up here\./i,
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /Forgot password\?/i })
-    ).toBeInTheDocument();
   });
 
   it("displays error message from query params", async () => {
@@ -81,10 +67,9 @@ describe("SignIn Page", () => {
   });
 
   it("submits form successfully, shows success message, and redirects", async () => {
-    // Setup userEvent with advanceTimers to fix fakeTimers + waitFor conflict
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-    jest.useFakeTimers({ legacyFakeTimers: true }); // Legacy mode for better polling compatibility
+    jest.useFakeTimers({ legacyFakeTimers: true });
 
     await act(async () => {
       render(<SignIn />);
@@ -113,7 +98,6 @@ describe("SignIn Page", () => {
       ).toBeInTheDocument();
     });
 
-    // Advance the fake clock by 1500ms to trigger the setTimeout redirect
     act(() => {
       jest.advanceTimersByTime(1500);
     });
@@ -145,13 +129,11 @@ describe("SignIn Page", () => {
       expect(
         screen.getByText(/Incorrect email or password./i)
       ).toBeInTheDocument();
-      // Button should not be disabled after error (re-enable for retry)
       expect(submitButton).not.toBeDisabled();
     });
   });
 
   it("shows loading spinner during submission", async () => {
-    // Delay the mock to simulate async
     (authLib.signin as jest.Mock).mockImplementation(
       () =>
         new Promise((resolve) =>

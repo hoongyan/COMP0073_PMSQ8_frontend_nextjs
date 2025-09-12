@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import NextLink from "next/link";
 import {
   Alert,
   Box,
-  Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
   Dialog,
@@ -13,7 +11,7 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
-  Link,
+  Grid,
   Menu,
   MenuItem,
   Paper as MuiPaper,
@@ -37,7 +35,7 @@ import {
   FilterList as FilterListIcon,
   Search as SearchIcon,
 } from "@mui/icons-material";
-import { format, parse, startOfDay, endOfDay } from "date-fns";
+import { parse, startOfDay, endOfDay } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -480,8 +478,8 @@ const ConversationHistoryDialog = ({
 
 function EnhancedTable() {
   const [rows, setRows] = useState<Array<RowType>>([]);
-  const [order, setOrder] = useState<"desc" | "asc">("desc");
-  const [orderBy, setOrderBy] = useState<keyof RowType>("creationDate");
+  const [order, setOrder] = useState<"desc" | "asc">("asc");
+  const [orderBy, setOrderBy] = useState<keyof RowType>("conversationId");
   const [selected, setSelected] = useState<Array<string>>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -676,7 +674,7 @@ function EnhancedTable() {
       >
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
           <TextField
-            placeholder="Search Conversation ID / Report ID / Summary"
+            placeholder="Search"
             variant="outlined"
             size="small"
             value={searchTerm}
@@ -707,7 +705,7 @@ function EnhancedTable() {
             aria-expanded={Boolean(anchorEl) ? "true" : undefined}
             sx={{ minWidth: "110px", minHeight: "35px" }}
           >
-            Manage
+            Manage Conversations
           </Button>
           <Menu
             id="manage-conversations-menu"
@@ -884,30 +882,27 @@ function EnhancedTable() {
 function ConversationsPage() {
   return (
     <React.Fragment>
-      <Box sx={{ p: 3 }}>
-        <Typography
-          variant="h3"
-          gutterBottom
-          display="inline"
-          sx={{
-            fontFamily: "Helvetica, sans-serif",
-            fontWeight: 600,
-            letterSpacing: 0.6,
-            color: "#001f3f",
-          }}
-        >
-          Conversations
-        </Typography>
-
-        <MuiBreadcrumbs aria-label="Breadcrumb" sx={{ mt: 2 }}>
-          <Link component={NextLink} href="/">
-            Home
-          </Link>
-          <Typography>Conversations</Typography>
-        </MuiBreadcrumbs>
-        <Box sx={{ height: "20px" }} />
-        <EnhancedTable />
-      </Box>
+      <Grid container direction="column" spacing={6}>
+        <Grid item xs={12}>
+          <Typography
+            variant="h3"
+            gutterBottom
+            display="inline"
+            sx={{
+              fontFamily: "Helvetica, sans-serif",
+              fontWeight: 600,
+              letterSpacing: 0.6,
+              color: "#001f3f",
+            }}
+          >
+            Conversations
+          </Typography>
+          <Box sx={{ height: "20px" }} />
+        </Grid>
+        <Grid item xs={12}>
+          <EnhancedTable />
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }

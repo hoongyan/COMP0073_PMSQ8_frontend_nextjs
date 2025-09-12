@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import NextLink from "next/link";
 import {
   Alert,
   Box,
-  Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
   Chip as MuiChip,
@@ -41,13 +39,9 @@ import {
 import { green, orange, blue, grey } from "@mui/material/colors";
 import {
   Add as AddIcon,
-  Archive as ArchiveIcon,
   FilterList as FilterListIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
   Delete as DeleteIcon,
-  CheckCircle as CheckCircleIcon,
   Search as SearchIcon,
-  Refresh as RefreshIcon,
   Edit as EditIcon,
 } from "@mui/icons-material";
 import * as yup from "yup";
@@ -78,10 +72,8 @@ type LinkedPerson = {
 
 export type RowType = {
   report_id: number;
-  // scam_incident_date: string;
-  // scam_report_date: string;
-  scam_incident_date: string | null; // Changed
-  scam_report_date: string | null; // Changed
+  scam_incident_date: string | null; 
+  scam_report_date: string | null; 
   scam_type: string;
   scam_approach_platform: string;
   scam_communication_platform: string;
@@ -106,7 +98,7 @@ const validationSchema = yup.object().shape({
     .required("Incident Date is required")
     .matches(/^\d{4}-\d{2}-\d{2}$/, { message: "Invalid date format (expected YYYY-MM-DD)", excludeEmptyString: true })
     .test("is-valid-date", "Invalid date", (value) => {
-      if (!value) return true; // Let required handle empty
+      if (!value) return true;
       return isValid(parseISO(value));
     })
     .test("max-date", "Incident Date cannot be in the future", (value) => {
@@ -820,9 +812,7 @@ function EditScamReportDialog({
   ios: { user_id: number; full_name: string }[];
 }) {
   if (!row) return null;
-  // Define Role type
   type Role = "witness" | "suspect" | "reportee" | "victim";
-  // Set up the form with validation
   const {
     control,
     handleSubmit,
@@ -834,13 +824,14 @@ function EditScamReportDialog({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       ...row,
-      io_in_charge: row.io_in_charge ?? null, // Explicitly set for clarity
+      io_in_charge: row.io_in_charge ?? null, 
     },
     mode: "onChange",
   });
-  // Watch current linked_persons value
+
+  
+
   const linkedPersons = watch("linked_persons", []);
-  // Separate states for DatePickers
   const [incidentDate, setIncidentDate] = React.useState<Date | null>(
     row.scam_incident_date ? parseISO(row.scam_incident_date) : null
   );
@@ -853,12 +844,24 @@ function EditScamReportDialog({
   React.useEffect(() => {
     const currentStatus = watch("status");
     if (ioInCharge !== null && currentStatus !== "Resolved") {
-      setValue("status", "Assigned");  // Auto-set to Assigned if IO is selected
+      setValue("status", "Assigned");  
     } else if (ioInCharge === null && currentStatus !== "Resolved") {
-      setValue("status", "Unassigned");  // Auto-set to Unassigned if no IO
+      setValue("status", "Unassigned");  
     }
-    // If "Resolved", leave it (user can set manually)
+
   }, [ioInCharge, setValue, watch]);
+
+  const watchedStatus = watch("status");
+
+  React.useEffect(() => {
+    if (watchedStatus === "Unassigned" && ioInCharge !== null) {
+      setValue("io_in_charge", null);  
+    } else if (watchedStatus === "Assigned" && ioInCharge === null) {
+      setValue("io_in_charge", null); 
+    }
+    // For "Resolved", allow IO or no IO 
+  }, [watchedStatus, ioInCharge, setValue]);
+  
   const handleIncidentDateChange = (newValue: Date | null) => {
     setIncidentDate(newValue);
     setValue("scam_incident_date", newValue ? format(newValue, "yyyy-MM-dd") : '');
@@ -875,10 +878,8 @@ function EditScamReportDialog({
     onClose();
     reset();
   };
-  // States for linked persons
   const [newPersonId, setNewPersonId] = React.useState('');
   const [newRole, setNewRole] = React.useState<Role>('victim');
-  // Sync linked_persons to form (initial only)
   React.useEffect(() => {
     setValue("linked_persons", row.linked_persons);
   }, [row.linked_persons, setValue]);
@@ -1134,6 +1135,7 @@ function EditScamReportDialog({
               />
             </Grid>
             <Grid size={{ xs: 6 }}>
+
               <Controller
                 name="io_in_charge"
                 control={control}
@@ -1154,10 +1156,13 @@ function EditScamReportDialog({
                         </MenuItem>
                       ))}
                     </Select>
-                    {errors.assigned_IO_id && <Typography color="error">{errors.assigned_IO_id.message}</Typography>}
+                    {errors.io_in_charge && <Typography color="error">{errors.io_in_charge.message}</Typography>}
                   </FormControl>
                 )}
               />
+              <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                Note: Set status to Assigned before choosing an IO, or it may be auto-adjusted.
+              </Typography>
             </Grid>
             <Grid size={{ xs: 12 }}>
               <Controller
@@ -1297,7 +1302,7 @@ function EnhancedTable() {
       }
     };
     loadIOs();
-  }, []);  // Fetch once on mount
+  }, []); 
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -1393,12 +1398,12 @@ function EnhancedTable() {
     try {
       let updated;
       if (isCreate) {
-        updated = await createScamReport(updatedRow); // ADDED: Create if in create mode
+        updated = await createScamReport(updatedRow); 
       } else {
-        updated = await updateScamReport(updatedRow.report_id, updatedRow); // Existing update
+        updated = await updateScamReport(updatedRow.report_id, updatedRow); 
       }
-      // Handle linked persons (compare original vs updated)
-      const originalLinks = await fetchLinkedPersons(updated.report_id || updatedRow.report_id);  // Fetch original
+      // Handle linked persons
+      const originalLinks = await fetchLinkedPersons(updated.report_id || updatedRow.report_id);  
       const newLinks = updatedRow.linked_persons;
 
       // Deletes
@@ -1414,7 +1419,7 @@ function EnhancedTable() {
         }
       }
 
-      loadReports(); // ADDED: Refresh full list (instead of manual setRows)
+      loadReports(); 
       setSnackbar({
         open: true,
         message: isCreate ? "Report created successfully" : "Report updated successfully",
@@ -1579,8 +1584,8 @@ function EnhancedTable() {
               assigned_IO: '',
               linked_persons: [],
             });
-            setIsCreate(true);  // Set create mode
-            setEditDialogOpen(true);  // Open dialog
+            setIsCreate(true);  
+            setEditDialogOpen(true);  
           }}
         >
           Add Report
@@ -1861,13 +1866,6 @@ function ScamReportList() {
           >
             Scam Reports
           </Typography>
-
-          <MuiBreadcrumbs aria-label="Breadcrumb" sx={{ mt: 2 }}>
-            <Link component={NextLink} href="/">
-              Home
-            </Link>
-            <Typography>Scam Reports</Typography>
-          </MuiBreadcrumbs>
           <Box sx={{ height: "20px" }} />
         </Grid>
         <Grid item xs={12} spacing={6}>

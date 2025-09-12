@@ -1,18 +1,18 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
-import ConversationsPage from "@/app/(dashboard)/admin/conversations/page"; // Adjust path if needed (based on your file structure)
+import ConversationsPage from "@/app/(dashboard)/admin/conversations/page"; 
 import * as conversationsLib from "@/lib/conversations";
-import { format, parseISO } from "date-fns";
+
 
 jest.mock("@/lib/conversations");
 
-// Sample mock data 
+// Sample mock data
 const mockConversations: conversationsLib.RowType[] = [
   {
     conversationId: "1",
     reportId: "report-123",
-    creationDate: "12/09/25 14:30", 
+    creationDate: "12/09/25 14:30",
     messages: [
       {
         messageId: "msg1",
@@ -40,7 +40,6 @@ const mockConversations: conversationsLib.RowType[] = [
   },
 ];
 
-// Setup userEvent
 const user = userEvent.setup();
 
 describe("ConversationsPage Component", () => {
@@ -64,13 +63,12 @@ describe("ConversationsPage Component", () => {
     expect(
       screen.getByRole("heading", { name: "Conversations", level: 3 })
     ).toBeInTheDocument();
-    expect(screen.getByText("Home")).toBeInTheDocument();
   });
 
   it("fetches and displays conversations data in the table", async () => {
     await act(async () => {
       render(<ConversationsPage />);
-      await Promise.resolve(); 
+      await Promise.resolve();
     });
 
     await waitFor(

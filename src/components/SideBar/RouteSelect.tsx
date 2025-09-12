@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IconType } from "react-icons";
 import {
   FiMessageSquare,
@@ -12,19 +12,50 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 
 export const RouteSelect = () => {
   const pathname = usePathname(); // Get the current route
   const router = useRouter();
 
-  // Map titles to route paths
+  const [role, setRole] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setRole(user.role);
+        setIsLoading(false);
+      } catch (err) {
+        setError("Failed to fetch user role");
+        setIsLoading(false);
+        router.push("/auth/sign-in");
+      }
+    };
+
+    fetchUser();
+  }, [router]);
+
+  // Conditionally define routes based on role
   const routes = [
-    { title: "User Management", path: "/admin/usermanagement", Icon: FiUsers },
-    {
-      title: "AI Conversations",
-      path: "/admin/conversations",
-      Icon: FiMessageSquare,
-    },
+    // Only add admin routes if role is 'ADMIN'
+    ...(role === "ADMIN"
+      ? [
+          {
+            title: "User Management",
+            path: "/admin/usermanagement",
+            Icon: FiUsers,
+          },
+          {
+            title: "AI Conversations",
+            path: "/admin/conversations",
+            Icon: FiMessageSquare,
+          },
+        ]
+      : []),
+    // Always show non-admin routes
     {
       title: "Scam Reports",
       path: "/reports",
@@ -37,21 +68,13 @@ export const RouteSelect = () => {
     },
   ];
 
-  const handleLogout = async () => {
-    const confirmed = window.confirm("Are you sure you want to log out?");
-    if (!confirmed) return;
+  if (isLoading) {
+    return <div>Loading sidebar...</div>; // You can style this or make it a spinner
+  }
 
-    try {
-      await logout();
-      alert("Logged out successfully!");
-      setTimeout(() => {
-        router.push("/auth/sign-in");
-      }, 1000);
-    } catch (error) {
-      console.error("Logout error:", error);
-      alert("Failed to log out. Please try again.");
-    }
-  };
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="space-y-1">
@@ -65,7 +88,21 @@ export const RouteSelect = () => {
         />
       ))}
       <button
-        onClick={handleLogout}
+        onClick={async () => {
+          const confirmed = window.confirm("Are you sure you want to log out?");
+          if (!confirmed) return;
+
+          try {
+            await logout();
+            alert("Logged out successfully!");
+            setTimeout(() => {
+              router.push("/auth/sign-in");
+            }, 1000);
+          } catch (error) {
+            console.error("Logout error:", error);
+            alert("Failed to log out. Please try again.");
+          }
+        }}
         className="flex items-center justify-start gap-2 w-full rounded px-2 py-1.5 text-sm transition-[box-shadow,_background-color,_color] hover:bg-stone-200 bg-transparent text-stone-500 shadow-none"
       >
         <FiLogOut />

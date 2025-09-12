@@ -1,12 +1,12 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
-import UserManagement from "@/app/(dashboard)/admin/usermanagement/page"; // Adjust path if needed
+import UserManagement from "@/app/(dashboard)/admin/usermanagement/page"; 
 import * as usersLib from "@/lib/users";
 
 jest.mock("@/lib/users");
 
-// Sample mock data (uppercase names as per backend)
+// Sample mock data
 const mockUsers: usersLib.RowType[] = [
   {
     userId: 1,
@@ -48,7 +48,6 @@ const mockUsers: usersLib.RowType[] = [
   },
 ];
 
-// Setup userEvent
 const user = userEvent.setup();
 
 describe("UserManagement Component", () => {
@@ -65,10 +64,6 @@ describe("UserManagement Component", () => {
     expect(
       screen.getByRole("heading", { name: "User Management", level: 3 })
     ).toBeInTheDocument();
-    expect(screen.getByText("Home")).toBeInTheDocument();
-    expect(
-      screen.getByText("User Management", { selector: ".MuiBreadcrumbs-li p" })
-    ).toBeInTheDocument();
   });
 
   it("fetches and displays users data in the table", async () => {
@@ -80,14 +75,14 @@ describe("UserManagement Component", () => {
       timeout: 10000,
     });
 
-    // Find first and last names separately (since they are in different table cells)
+    // Find first and last names separately
     await screen.findByText("JOHN", { timeout: 10000 });
     await screen.findByText("DOE", { timeout: 10000 });
 
     const table = screen.getByRole("table");
 
-    // Update header checks to match actual component (split Name, Postal Code)
-    expect(within(table).getByText("User ID")).toBeInTheDocument(); // Added for completeness
+
+    expect(within(table).getByText("User ID")).toBeInTheDocument(); 
     expect(within(table).getByText("First Name")).toBeInTheDocument();
     expect(within(table).getByText("Last Name")).toBeInTheDocument();
     expect(within(table).getByText("Sex")).toBeInTheDocument();
@@ -95,7 +90,7 @@ describe("UserManagement Component", () => {
     expect(within(table).getByText("Race")).toBeInTheDocument();
     expect(within(table).getByText("Contact No")).toBeInTheDocument();
     expect(within(table).getByText("Email")).toBeInTheDocument();
-    expect(within(table).getByText("Postal Code")).toBeInTheDocument(); // Fixed from "Post Code"
+    expect(within(table).getByText("Postal Code")).toBeInTheDocument(); 
     expect(within(table).getByText("Registration Date")).toBeInTheDocument();
     expect(within(table).getByText("Role")).toBeInTheDocument();
     expect(within(table).getByText("Status")).toBeInTheDocument();
@@ -110,7 +105,6 @@ describe("UserManagement Component", () => {
     expect(await screen.findByText("ADMIN")).toBeInTheDocument();
     expect(await screen.findByText("ACTIVE")).toBeInTheDocument();
 
-    // Find Jane's first and last names separately
     await screen.findByText("JANE", { timeout: 10000 });
     await screen.findByText("SMITH", { timeout: 10000 });
     expect(await screen.findByText("FEMALE")).toBeInTheDocument();
@@ -132,7 +126,7 @@ describe("UserManagement Component", () => {
     await waitFor(() => expect(usersLib.fetchUsers).toHaveBeenCalledTimes(1), {
       timeout: 10000,
     });
-    // Update to check for first name (consistent with other fixes)
+    // Update to check for first name
     await waitFor(
       () => expect(screen.queryByText("JOHN")).not.toBeInTheDocument(),
       { timeout: 10000 }
@@ -140,7 +134,7 @@ describe("UserManagement Component", () => {
 
     const table = screen.getByRole("table");
     const rows = within(table).getAllByRole("row");
-    expect(rows.length).toBe(2); // Header row + empty body row
+    expect(rows.length).toBe(2); 
   }, 30000);
 
   it("handles fetch error and shows snackbar", async () => {
