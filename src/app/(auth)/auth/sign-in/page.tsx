@@ -28,8 +28,8 @@ import { signin, SigninData } from '@/lib/auth';
 
 // NEW: Validation schema (client-side)
 const signinSchema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+  email: yup.string().required('Email is required').email('Invalid email'),
+  password: yup.string().required('Password is required').min(8, 'Password must be at least 8 characters'),
 });
 
 type SigninFormData = yup.InferType<typeof signinSchema>;

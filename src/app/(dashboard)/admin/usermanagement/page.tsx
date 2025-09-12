@@ -1575,7 +1575,7 @@ function EnhancedTable() {
             onClick={handleManage}
             sx={{ minWidth: "120px", minHeight: "35px" }}
           >
-            Manage
+            Manage Users
           </Button>
         </Box>
       </Box>

@@ -10,9 +10,10 @@ export async function fetchScamReports(): Promise<RowType[]> {
   return data.reports.map((report: any) => ({
     ...report,
     report_id: report.report_id,
-    scam_incident_date: report.scam_incident_date || '',
-    scam_report_date: report.scam_report_date || '',
+    scam_incident_date: report.scam_incident_date ?? '',
+    scam_report_date: report.scam_report_date ?? '',
     scam_amount_lost: report.scam_amount_lost ? report.scam_amount_lost.toString() : '',
+    io_in_charge: report.assigned_IO_id ?? null,
     linked_persons: report.linked_persons || [],
   }));
 }
@@ -104,4 +105,14 @@ export async function deleteLinkedPerson(reportId: number, personId: number): Pr
     const errorData = await response.json();
     throw new Error(errorData.error || `Failed to delete linked person: ${response.statusText}`);
   }
+}
+
+export async function fetchIOs(): Promise<{ user_id: number; full_name: string }[]> {
+  const response = await fetch(`/api/users/io`);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || `Failed to fetch IOs: ${response.statusText}`);
+  }
+  const data = await response.json();
+  return data.ios;  // Matches backend IOListResponse
 }

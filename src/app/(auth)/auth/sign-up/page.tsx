@@ -296,7 +296,6 @@ function SignUp() {
                           autoComplete="email"
                           error={!!errors.email}
                           helperText={errors.email?.message}
-                          aria-label="Email Address"  // Accessibility
                         />
                       )}
                     />
@@ -318,7 +317,6 @@ function SignUp() {
                           autoComplete="new-password"
                           error={!!errors.password}
                           helperText={errors.password?.message}
-                          aria-label="Password"  // Accessibility
                         />
                       )}
                     />
@@ -350,7 +348,6 @@ function SignUp() {
                           id="confirmPassword"
                           error={!!errors.confirmPassword}
                           helperText={errors.confirmPassword?.message}
-                          aria-label="Confirm Password"
                         />
                       )}
                     />
