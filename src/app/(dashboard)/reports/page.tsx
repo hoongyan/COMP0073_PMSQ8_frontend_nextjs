@@ -153,8 +153,15 @@ const validationSchema = yup.object().shape({
   scam_url_link: yup.string().nullable(),
   status: yup.string().nullable(),
   assigned_IO: yup.string().nullable(),
-  io_in_charge: yup.number().nullable().transform((val, originalVal) => (originalVal === '' ? null : val)), // Allows null for unassigned
-});
+  io_in_charge: yup
+    .number()
+    .nullable()
+    .when("status", {
+      is: (status: string) => status === "Assigned" || status === "Resolved",
+      then: (schema) => schema.required("Investigation Officer is required for Assigned or Resolved status"),
+    })
+    .transform((val, originalVal) => (originalVal === '' ? null : val)),
+  });
 
 function DateFilterMenu({
   startDate,
@@ -253,6 +260,7 @@ function DateFilterMenu({
         onClick={handleDateFilterClick}
         startIcon={<FilterListIcon />}
       >
+        Report Date - {" "}
         {selectedRange === "7days"
           ? "Last 7 Days"
           : selectedRange === "30days"
@@ -841,25 +849,43 @@ function EditScamReportDialog({
 
   // Auto-update status based on IO selection
   const ioInCharge = watch("io_in_charge");
+  // React.useEffect(() => {
+  //   const currentStatus = watch("status");
+  //   if (ioInCharge !== null && currentStatus !== "Resolved") {
+  //     setValue("status", "Assigned");  
+  //   } else if (ioInCharge === null && currentStatus !== "Resolved") {
+  //     setValue("status", "Unassigned");  
+  //   }
+  
+
+  // }, [ioInCharge, setValue, watch]);
   React.useEffect(() => {
     const currentStatus = watch("status");
     if (ioInCharge !== null && currentStatus !== "Resolved") {
       setValue("status", "Assigned");  
-    } else if (ioInCharge === null && currentStatus !== "Resolved") {
+    } else if (ioInCharge === null) {
       setValue("status", "Unassigned");  
     }
-
   }, [ioInCharge, setValue, watch]);
 
   const watchedStatus = watch("status");
 
+  // React.useEffect(() => {
+  //   if (watchedStatus === "Unassigned" && ioInCharge !== null) {
+  //     setValue("io_in_charge", null);  
+  //   } else if (watchedStatus === "Assigned" && ioInCharge === null) {
+  //     setValue("io_in_charge", null); 
+  //   }
+  //   // For "Resolved", allow IO or no IO 
+  // }, [watchedStatus, ioInCharge, setValue]);
   React.useEffect(() => {
     if (watchedStatus === "Unassigned" && ioInCharge !== null) {
-      setValue("io_in_charge", null);  
+      setValue("status", "Assigned");  
     } else if (watchedStatus === "Assigned" && ioInCharge === null) {
-      setValue("io_in_charge", null); 
+      setValue("status", "Unassigned"); 
+    } else if (watchedStatus === "Resolved" && ioInCharge === null) {
+      setValue("status", "Unassigned");
     }
-    // For "Resolved", allow IO or no IO 
   }, [watchedStatus, ioInCharge, setValue]);
   
   const handleIncidentDateChange = (newValue: Date | null) => {
@@ -959,7 +985,7 @@ function EditScamReportDialog({
                   <TextField
                     {...field}
                     fullWidth
-                    label="Type"
+                    label="Scam Type"
                     error={!!errors.scam_type}
                     helperText={errors.scam_type?.message}
                   />
@@ -1160,9 +1186,9 @@ function EditScamReportDialog({
                   </FormControl>
                 )}
               />
-              <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                Note: Set status to Assigned before choosing an IO, or it may be auto-adjusted.
-              </Typography>
+            <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+              Note: Select an Investigation Officer before setting status to Assigned or Resolved. Select None to unassign an officer and status will auto-update.
+            </Typography>
             </Grid>
             <Grid size={{ xs: 12 }}>
               <Controller
@@ -1366,8 +1392,10 @@ function EnhancedTable() {
 
   const filteredRows = rows.filter((row) => {
     const matchesSearch = Object.values(row).some((value) =>
-      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    //   value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    String(value).toLowerCase().includes(searchQuery.toLowerCase())
+  );
     const matchesStatus = statusFilter === "All" || row.status === statusFilter;
     const reportDate = parseISO(row.scam_report_date);
     const matchesDate =

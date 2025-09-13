@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { fetch,Agent } from 'undici';
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://127.0.0.1:8000'; // Use non-public env var for server-side
 
@@ -6,12 +7,19 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
+    const agent = new Agent({  // Custom agent for timeouts
+      headersTimeout: 600000,  // 10 minutes
+      bodyTimeout: 600000,
+      connectTimeout: 30000
+    });
+
     const response = await fetch(`${API_BASE_URL}/chat/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+      dispatcher: agent
     });
 
     if (!response.ok) {

@@ -88,6 +88,7 @@ export type LinkedReport = {
   role: string;
 };
 
+
 function DateFilterMenu({
   startDate,
   endDate,
@@ -123,27 +124,9 @@ function DateFilterMenu({
   ) => {
     setSelectedRange(range);
     let newStartDate: Date | null = null;
-    let newEndDate: Date | null = new Date();
+    let newEndDate: Date | null = null;
 
     switch (range) {
-      case "7days":
-        newStartDate = new Date();
-        newStartDate.setDate(newStartDate.getDate() - 7);
-        newStartDate = startOfDay(newStartDate);
-        newEndDate = endOfDay(newEndDate);
-        break;
-      case "30days":
-        newStartDate = new Date();
-        newStartDate.setDate(newStartDate.getDate() - 30);
-        newStartDate = startOfDay(newStartDate);
-        newEndDate = endOfDay(newEndDate);
-        break;
-      case "year":
-        newStartDate = new Date();
-        newStartDate.setFullYear(newStartDate.getFullYear() - 1);
-        newStartDate = startOfDay(newStartDate);
-        newEndDate = endOfDay(newEndDate);
-        break;
       case "all":
         newStartDate = null;
         newEndDate = null;
@@ -151,6 +134,7 @@ function DateFilterMenu({
       case "custom":
         if (event) {
           setPopoverAnchorEl(event.currentTarget);
+          
         }
         return;
     }
@@ -185,13 +169,8 @@ function DateFilterMenu({
         onClick={handleDateFilterClick}
         startIcon={<FilterListIcon />}
       >
-        {selectedRange === "7days"
-          ? "Last 7 Days"
-          : selectedRange === "30days"
-          ? "Last 30 Days"
-          : selectedRange === "year"
-          ? "Last Year"
-          : selectedRange === "custom"
+        DOB - {" "}
+        {selectedRange === "custom"
           ? "Custom Range"
           : "All Time"}
       </Button>
@@ -203,13 +182,6 @@ function DateFilterMenu({
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "left" }}
       >
-        <MenuItem onClick={() => handleRangeSelect("7days")}>
-          Last 7 Days
-        </MenuItem>
-        <MenuItem onClick={() => handleRangeSelect("30days")}>
-          Last 30 Days
-        </MenuItem>
-        <MenuItem onClick={() => handleRangeSelect("year")}>Last Year</MenuItem>
         <MenuItem onClick={() => handleRangeSelect("all")}>All Time</MenuItem>
         <MenuItem onClick={(event) => handleRangeSelect("custom", event)}>
           Custom Range

@@ -159,6 +159,7 @@ function DateFilterMenu({
         onClick={handleDateFilterClick}
         startIcon={<FilterListIcon />}
       >
+        Registration Date - {" "}
         {selectedRange === "7days"
           ? "Last 7 Days"
           : selectedRange === "30days"
