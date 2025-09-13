@@ -70,7 +70,7 @@ function ReportScam() {
     }
   ];
 
-  // Yup validation schema based on PublicReportSubmission and public_reports.py validators
+  // Yup validation schema based on PublicReport and public_reports.py validators
   const validationSchema = yup.object({
     first_name: yup.string().trim().required("First name is required").min(2, "Name must be at least 2 characters"),
     last_name: yup.string().trim().required("Last name is required").min(2, "Name must be at least 2 characters"),
@@ -558,7 +558,7 @@ function ReportScam() {
           {/* Form (left side) */}
           <Box
             sx={{
-              flex: { sm: '0 0 80%' }, 
+              flex: { sm: '0 0 70%' }, 
               width: { xs: '100%', sm: 'auto' },
             }}
             component="form"
@@ -1205,7 +1205,7 @@ function ReportScam() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: "850px",  
+                  height: "700px",  
                   border: "1px solid #ddd",
                   position: { xs: 'static', sm: 'fixed' },  
                   bottom: { sm: 16 },  
