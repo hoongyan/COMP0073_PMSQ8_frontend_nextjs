@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
+import { Suspense } from 'react';
 import { useSearchParams, useRouter } from "next/navigation"; 
 import NextLink from "next/link";
+
 
 import {
   Typography,
@@ -33,9 +35,8 @@ const signinSchema = yup.object({
 
 type SigninFormData = yup.InferType<typeof signinSchema>;
 
-function SignIn() {
+function ErrorMessage() {  
   const searchParams = useSearchParams();
-  const router = useRouter(); 
   const rawError = searchParams.get("error");
 
   const errorMap: Record<string, string> = {
@@ -45,8 +46,30 @@ function SignIn() {
       "This account has been deactivated. Please contact the admin.",
     CredentialsSignin: "Invalid login attempt. Please try again.",
   };
-
   const errorMessage = rawError ? errorMap[rawError] : null;
+
+  return errorMessage ? (
+    <Alert severity="error" sx={{ mb: 3 }}>
+      {errorMessage}
+    </Alert>
+  ) : null;
+}
+
+
+function SignIn() {
+  // const searchParams = useSearchParams();
+  // const router = useRouter(); 
+  // const rawError = searchParams.get("error");
+
+  // const errorMap: Record<string, string> = {
+  //   InvalidCredentials:
+  //     "Invalid login details. Please check your email and password.",
+  //   DeactivatedAccount:
+  //     "This account has been deactivated. Please contact the admin.",
+  //   CredentialsSignin: "Invalid login attempt. Please try again.",
+  // };
+
+  // const errorMessage = rawError ? errorMap[rawError] : null;
 
   const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<SigninFormData>({
     resolver: yupResolver(signinSchema),
@@ -152,11 +175,14 @@ function SignIn() {
               >
                 Secure access for police officers and analysts.
               </Typography>
-              {errorMessage && (
+              <Suspense fallback={<CircularProgress size={24} />}>
+              <ErrorMessage />  {/* NEW: Use the extracted component */}
+              </Suspense>
+              {/* {errorMessage && (
                 <Alert severity="error" sx={{ mb: 3 }}>
                   {errorMessage}
                 </Alert>
-              )}
+              )} */}
               {submissionStatus === "error" && ( 
                 <Alert severity="error" sx={{ mb: 3 }}>
                   {submissionMessage}

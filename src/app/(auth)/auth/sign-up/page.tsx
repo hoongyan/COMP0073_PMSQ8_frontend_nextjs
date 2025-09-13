@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";  
+import { Suspense } from 'react';
 import { useSearchParams} from "next/navigation";
 import NextLink from "next/link";
 
@@ -58,7 +59,8 @@ const signupSchema = yup.object({
 
 type SignupFormData = yup.InferType<typeof signupSchema>;  
 
-function SignUp() {
+
+function ErrorMessage() {  // NEW: Extracted component for error handling
   const searchParams = useSearchParams();
   const rawError = searchParams.get("error");
 
@@ -68,6 +70,24 @@ function SignUp() {
   };
 
   const errorMessage = rawError ? errorMap[rawError] : null;
+
+  return errorMessage ? (
+    <Alert severity="error" sx={{ mb: 2 }}>
+      {errorMessage}
+    </Alert>
+  ) : null;
+}
+
+function SignUp() {
+  // const searchParams = useSearchParams();
+  // const rawError = searchParams.get("error");
+
+  // const errorMap: Record<string, string> = {
+  //   RegistrationFailed: "Registration failed. Please try again.",
+  //   // Add more error mappings as needed for production
+  // };
+
+  // const errorMessage = rawError ? errorMap[rawError] : null;
 
   const { control, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<SignupFormData>({
     resolver: yupResolver(signupSchema),
@@ -268,11 +288,14 @@ function SignUp() {
               >
                 Create Your Account
               </Typography>
-              {errorMessage && (
+              {/* {errorMessage && (
                 <Alert severity="error" sx={{ mb: 2 }}>
                   {errorMessage}
                 </Alert>
-              )}
+              )} */}
+              <Suspense fallback={<CircularProgress size={24} />}>  {/* NEW: Wrap in Suspense */}
+                <ErrorMessage />  {/* NEW: Use the extracted component */}
+              </Suspense>
               {submissionStatus === "error" && (
                 <Alert severity="error" sx={{ mb: 2 }}>
                   {submissionMessage}
