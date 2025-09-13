@@ -41,7 +41,7 @@ export default function Header() {
           >
             <LocalPoliceIcon sx={{ color: "white", fontSize: 32, mr: 1 }} />
             <Typography variant="h6" sx={{ color: "white", fontWeight: 700 }}>
-              Singapore Police Force e-Services
+              Police Scam Reporting Site
             </Typography>
           </Box>
           {/* Center: Main Navigation Links - Spread out with space-around */}
@@ -89,18 +89,6 @@ export default function Header() {
               }}
             >
               Advisories
-            </Button>
-            <Button
-              color="inherit"
-              component={NextLink}
-              href="/e-services"
-              sx={{
-                color: "white",
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                minWidth: "auto",
-              }}
-            >
-              E-Services
             </Button>
             <Button
               color="inherit"

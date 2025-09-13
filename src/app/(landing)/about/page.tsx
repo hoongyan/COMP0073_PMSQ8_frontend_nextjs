@@ -192,23 +192,6 @@ function About() {
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Card
-                sx={{
-                  height: "100%",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
-                  transition: "transform 0.3s ease",
-                  "&:hover": { transform: "translateY(-4px)" },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                    Loyalty
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    We are loyal to the nation, to the Home Team, to the SPF community, and to our own beliefs and ideals.
-                  </Typography>
-                </CardContent>
-              </Card>
             </Grid>
             <Grid item xs={12} md={6}>
               <Card
@@ -243,93 +226,12 @@ function About() {
                     Fairness
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    We are fair in our dealings with people, irrespective of their race, religion, gender, age, standing in life and irrespective of whether they are victims, suspects or convicts. We also apply the same standard to the members of the SPF.
+                    We are fair in our dealings with people, irrespective of their race, religion, gender, age, standing in life and irrespective of whether they are victims, suspects or convicts. We also apply the same standard to the members of the police force.
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
-        </Box>
-
-        {/* History Section */}
-        <Box sx={{ mb: 8 }}>
-          <Typography
-            variant="h4"
-            component="h2"
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: 700,
-              color: "#001f3f",
-              textAlign: "center",
-              mb: 4,
-            }}
-          >
-            Our History
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              maxWidth: "800px",
-              mx: "auto",
-              color: "text.secondary",
-              mb: 4,
-            }}
-          >
-            The Singapore Police Force was founded on 24 May 1820 with just 11 men under the leadership of Francis James Bernard. Starting with minimal resources, it has grown into a modern, efficient force responsible for maintaining law and order in Singapore.
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              maxWidth: "800px",
-              mx: "auto",
-              color: "text.secondary",
-            }}
-          >
-            Post-independence in 1965, the SPF has focused on keeping crime rates low, adapting to new challenges like cybercrimes and scams in the 21st century.
-          </Typography>
-        </Box>
-
-        {/* Key Facts Section */}
-        <Box sx={{ mb: 8 }}>
-          <Typography
-            variant="h4"
-            component="h2"
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: 700,
-              color: "#001f3f",
-              textAlign: "center",
-              mb: 4,
-            }}
-          >
-            Key Facts
-          </Typography>
-          <List sx={{ maxWidth: "800px", mx: "auto" }}>
-            <ListItem>
-              <ListItemIcon>
-                <StarIcon sx={{ color: "#001f3f" }} />
-              </ListItemIcon>
-              <ListItemText primary="Total personnel: Approximately 43,600 (as of 2023), including regulars, conscripts, and volunteers." />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <StarIcon sx={{ color: "#001f3f" }} />
-              </ListItemIcon>
-              <ListItemText primary="Headquartered at New Phoenix Park, with divisions across Singapore." />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <StarIcon sx={{ color: "#001f3f" }} />
-              </ListItemIcon>
-              <ListItemText primary="Contributes to Singapore being one of the safest and least corrupt countries in the world." />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <StarIcon sx={{ color: "#001f3f" }} />
-              </ListItemIcon>
-              <ListItemText primary="Key units include the Airport Police Division, Police Coast Guard, and Special Operations Command." />
-            </ListItem>
-          </List>
         </Box>
       </Container>
 
@@ -342,28 +244,6 @@ function About() {
           textAlign: "center",
         }}
       >
-        <Container maxWidth="lg">
-          <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            © {new Date().getFullYear()} Singapore Police Force. All rights reserved.
-          </Typography>
-          <Box sx={{ mt: 2 }}>
-            <NextLink href="/privacy-policy" passHref>
-              <Typography component="a" variant="body2" sx={{ color: "white", mx: 2, textDecoration: "none" }}>
-                Privacy Policy
-              </Typography>
-            </NextLink>
-            <NextLink href="/terms-of-use" passHref>
-              <Typography component="a" variant="body2" sx={{ color: "white", mx: 2, textDecoration: "none" }}>
-                Terms of Use
-              </Typography>
-            </NextLink>
-            <NextLink href="/contact-us" passHref>
-              <Typography component="a" variant="body2" sx={{ color: "white", mx: 2, textDecoration: "none" }}>
-                Contact Us
-              </Typography>
-            </NextLink>
-          </Box>
-        </Container>
       </Box>
     </React.Fragment>
   );

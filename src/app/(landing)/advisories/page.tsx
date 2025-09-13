@@ -396,22 +396,6 @@ function Advisories() {
           textAlign: "center",
         }}
       >
-        <Container maxWidth="lg">
-          <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            © {new Date().getFullYear()} Singapore Police Force. All rights reserved.
-          </Typography>
-          <Box sx={{ mt: 2 }}>
-            <Link href="/privacy-policy" component={NextLink} sx={{ color: "white", mx: 2 }}>
-              Privacy Policy
-            </Link>
-            <Link href="/terms-of-use" component={NextLink} sx={{ color: "white", mx: 2 }}>
-              Terms of Use
-            </Link>
-            <Link href="/contact-us" component={NextLink} sx={{ color: "white", mx: 2 }}>
-              Contact Us
-            </Link>
-          </Box>
-        </Container>
       </Box>
     </React.Fragment>
   );
