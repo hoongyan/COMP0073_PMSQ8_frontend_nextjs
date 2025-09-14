@@ -1377,7 +1377,7 @@ function ReportScam() {
           <Button 
             onClick={() => {
               setConfirmationOpen(false);
-              router.push('/home'); 
+              router.push('/'); 
             }}
           >
             OK
