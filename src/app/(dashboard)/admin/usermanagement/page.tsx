@@ -1298,7 +1298,7 @@ function EnhancedTable() {
       row.street?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.unitNo?.includes(searchTerm) ||
       row.postCode?.includes(searchTerm);
-    const matchesRole = roleFilter === "All" || row.role === roleFilter.toUpperCase().replace(" ", "_");
+    const matchesRole = roleFilter === "All" || row.role === roleFilter.toUpperCase();
     const matchesStatus = statusFilter === "All" || row.status === statusFilter.toUpperCase();
     const regDate = parseISO(row.registrationDate);
     const matchesDate =
@@ -1528,11 +1528,11 @@ function EnhancedTable() {
               onChange={(e) => setRoleFilter(e.target.value)}
             >
               <MenuItem value="All">All</MenuItem>
-              <MenuItem value="Analyst">Analyst</MenuItem>
-              <MenuItem value="Investigation Officer">
+              <MenuItem value="ANALYST">Analyst</MenuItem>
+              <MenuItem value="INVESTIGATION OFFICER">
                 Investigation Officer
               </MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
+              <MenuItem value="ADMIN">Admin</MenuItem>
             </Select>
           </FormControl>
           <FormControl size="small" sx={{ minWidth: 150 }}>
