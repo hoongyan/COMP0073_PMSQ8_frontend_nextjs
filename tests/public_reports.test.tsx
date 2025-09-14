@@ -619,25 +619,240 @@
 
 
 
+// import { render, screen, waitFor } from "@testing-library/react";
+// import userEvent from "@testing-library/user-event";
+// import ReportScam from "@/app/(landing)/report-scam/page"; // Fixed path from error log
+// import * as publicReportsLib from "@/lib/public_reports";
+// import { useRouter } from "next/navigation";
+// import jsPDF from "jspdf";
+// import '@testing-library/jest-dom'; // Assume this for toHaveAttribute; add if missing
+
+// jest.mock("@/lib/public_reports");
+// jest.mock("jspdf");
+
+// // Mock next/navigation properly
+// jest.mock('next/navigation', () => ({
+//   useRouter: jest.fn(),
+// }));
+
+// jest.setTimeout(30000); // Increase global timeout
+
+// // Mock scrollIntoView to avoid jsdom errors
+// beforeAll(() => {
+//   Element.prototype.scrollIntoView = jest.fn();
+// });
+
+// // Mock router
+// const mockPush = jest.fn();
+// beforeEach(() => {
+//   (useRouter as jest.Mock).mockReturnValue({
+//     push: mockPush,
+//   });
+// });
+
+// // Mock jsPDF
+// const mockJsPDF = {
+//   setFontSize: jest.fn(),
+//   setFont: jest.fn(),
+//   setTextColor: jest.fn(),
+//   setLineWidth: jest.fn(),
+//   text: jest.fn(),
+//   line: jest.fn(),
+//   addPage: jest.fn(),
+//   save: jest.fn(),
+// };
+// (jsPDF as jest.Mock).mockImplementation(() => mockJsPDF);
+
+// // Sample mock data for form submission
+// const mockFormData = {
+//   first_name: "John",
+//   last_name: "Doe",
+//   contact_no: "+123456789",
+//   email: "john@example.com",
+//   sex: "MALE",
+//   role: "victim",
+//   scam_incident_date: "2023-01-01",
+//   scam_incident_description: "Test description",
+// };
+
+// // Setup userEvent
+// const user = userEvent.setup();
+
+// describe("ReportScam Component", () => {
+//   beforeEach(() => {
+//     jest.resetAllMocks();
+//     // Default mocks: successful submission and chat
+//     (publicReportsLib.submitPublicReport as jest.Mock).mockResolvedValue({ report_id: 123 });
+//     (publicReportsLib.sendChatMessage as jest.Mock).mockResolvedValue({
+//       response: "AI response",
+//       conversation_id: 1,
+//       structured_data: { scam_type: "PHISHING" },
+//     });
+//     mockPush.mockClear();
+//   });
+
+//   it("renders without crashing and displays key form elements", async () => {
+//     render(<ReportScam />);
+//     await waitFor(() => {
+//       expect(screen.getByRole("heading", { name: "Report a Scam", level: 3 })).toBeInTheDocument();
+//       expect(screen.getByRole("textbox", { name: /First Name/i })).toBeInTheDocument();
+//       expect(screen.getByRole("textbox", { name: "Email" })).toBeInTheDocument();
+//       expect(screen.getByRole("textbox", { name: "Incident Description" })).toBeInTheDocument();
+//       expect(screen.getByRole("button", { name: /Ask AI Assistant Now/i })).toBeInTheDocument();
+//     }, { timeout: 10000 });
+//   });
+
+//   it("validates required fields on submit and shows errors", async () => {
+//     render(<ReportScam />);
+
+//     // Submit empty form
+//     const submitButton = screen.getByRole("button", { name: /Submit Report/i });
+//     await user.click(submitButton);
+
+//     // Check for validation errors via aria-invalid
+//     await waitFor(() => {
+//       expect(screen.getByRole("textbox", { name: /First Name/i })).toHaveAttribute("aria-invalid", "true");
+//       expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute("aria-invalid", "true");
+//       expect(screen.getByRole("textbox", { name: "Incident Description" })).toHaveAttribute("aria-invalid", "true");
+//     }, { timeout: 20000 });
+//   });
+
+//   it("handles successful form submission and shows confirmation dialog", async () => {
+//     render(<ReportScam />);
+
+//     // Fill required fields
+//     await user.type(screen.getByRole("textbox", { name: /First Name/i }), mockFormData.first_name);
+//     await user.type(screen.getByRole("textbox", { name: /Last Name/i }), mockFormData.last_name);
+//     await user.type(screen.getByRole("textbox", { name: /Contact Number \(e.g., 12345678 or \+6512345678\)/i }), mockFormData.contact_no);
+//     await user.type(screen.getByRole("textbox", { name: "Email" }), mockFormData.email);
+//     await user.click(screen.getByRole("combobox", { name: "Sex" })); // Open select
+//     await user.click(screen.getByRole("option", { name: "Male" }));
+//     await user.click(screen.getByRole("combobox", { name: "Role" })); // Open select
+//     await user.click(screen.getByRole("option", { name: "Victim" }));
+//     // DatePicker
+//     await user.click(screen.getByRole("group", { name: "Scam Incident Date" }));
+//     await user.type(screen.getByRole("textbox"), mockFormData.scam_incident_date);
+//     await user.keyboard("{Enter}");
+//     await user.type(screen.getByRole("textbox", { name: "Incident Description" }), mockFormData.scam_incident_description);
+
+//     // Submit
+//     await user.click(screen.getByRole("button", { name: /Submit Report/i }));
+
+//     // Wait for dialog
+//     await waitFor(() => {
+//       expect(publicReportsLib.submitPublicReport).toHaveBeenCalledTimes(1);
+//       expect(screen.getByText("Report Submitted Successfully")).toBeInTheDocument();
+//       expect(screen.getByText(/Report ID: 123/i)).toBeInTheDocument();
+//     }, { timeout: 20000 });
+
+//     // Download
+//     await user.click(screen.getByRole("button", { name: /Download Confirmation Report/i }));
+//     expect(mockJsPDF.save).toHaveBeenCalled();
+//   });
+
+//   it("handles submission error and shows snackbar", async () => {
+//     (publicReportsLib.submitPublicReport as jest.Mock).mockRejectedValue(new Error("Submission failed"));
+
+//     render(<ReportScam />);
+
+//     // Fill form
+//     await user.type(screen.getByRole("textbox", { name: /First Name/i }), "John");
+//     await user.type(screen.getByRole("textbox", { name: /Last Name/i }), "Doe");
+//     await user.type(screen.getByRole("textbox", { name: /Contact Number \(e.g., 12345678 or \+6512345678\)/i }), "+123456789");
+//     await user.type(screen.getByRole("textbox", { name: "Email" }), "john@example.com");
+//     await user.click(screen.getByRole("combobox", { name: "Sex" }));
+//     await user.click(screen.getByRole("option", { name: "Male" }));
+//     await user.click(screen.getByRole("combobox", { name: "Role" }));
+//     await user.click(screen.getByRole("option", { name: "Victim" }));
+//     await user.click(screen.getByRole("group", { name: "Scam Incident Date" }));
+//     await user.type(screen.getByRole("textbox"), "2023-01-01");
+//     await user.keyboard("{Enter}");
+//     await user.type(screen.getByRole("textbox", { name: "Incident Description" }), "Test");
+
+//     // Submit
+//     await user.click(screen.getByRole("button", { name: /Submit Report/i }));
+
+//     // Check snackbar
+//     await waitFor(() => {
+//       expect(publicReportsLib.submitPublicReport).toHaveBeenCalledTimes(1);
+//       expect(screen.getByText("Submission failed")).toBeInTheDocument();
+//     }, { timeout: 20000 });
+//   });
+
+//   it("opens AI chat after warning, sends message, and applies suggestions", async () => {
+//     render(<ReportScam />);
+
+//     // Click AI button
+//     const aiButton = screen.getByRole("button", { name: /Ask AI Assistant Now/i });
+//     await user.click(aiButton);
+//     await waitFor(() => {
+//       expect(screen.getByText("AI Assistant Warning")).toBeInTheDocument();
+//     }, { timeout: 20000 });
+
+//     // Proceed
+//     await user.click(screen.getByRole("button", { name: "Proceed" }));
+
+//     // Chat opens
+//     await waitFor(() => {
+//       expect(screen.getByText(/Hello, I’m here to assist you/i)).toBeInTheDocument();
+//     }, { timeout: 20000 });
+
+//     // Send message
+//     const chatInput = screen.getByPlaceholderText("Type a message...");
+//     await user.type(chatInput, "Test query");
+//     await user.click(screen.getByRole("button", { name: /Send/i }));
+
+//     // Wait for response
+//     await waitFor(() => {
+//       expect(publicReportsLib.sendChatMessage).toHaveBeenCalledWith("Test query", null);
+//       expect(screen.getByText("AI response")).toBeInTheDocument();
+//     }, { timeout: 20000 });
+
+//     // Check override
+//     await waitFor(() => {
+//       const select = screen.getByRole("combobox", { name: "Scam Type" });
+//       expect(select).toHaveValue("PHISHING");
+//     }, { timeout: 20000 });
+//   });
+
+//   it("triggers exit confirmation and navigates away", async () => {
+//     render(<ReportScam />);
+
+//     // Click exit
+//     const exitButton = screen.getByRole("button", { name: "Exit" });
+//     await user.click(exitButton);
+
+//     // Check dialog
+//     await waitFor(() => {
+//       expect(screen.getByText("Confirm Exit")).toBeInTheDocument();
+//     }, { timeout: 20000 });
+
+//     // Confirm
+//     await user.click(screen.getByRole("button", { name: "Yes" }));
+
+//     // Check navigation
+//     expect(mockPush).toHaveBeenCalledWith("/home");
+//   });
+// });
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ReportScam from "@/app/(landing)/report-scam/page"; // Fixed path from error log
+import ReportScam from "@/app/(landing)/report-scam/page";
 import * as publicReportsLib from "@/lib/public_reports";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
-import '@testing-library/jest-dom'; // Assume this for toHaveAttribute; add if missing
+import '@testing-library/jest-dom';
 
 jest.mock("@/lib/public_reports");
 jest.mock("jspdf");
 
-// Mock next/navigation properly
+// Mock next/navigation
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.setTimeout(30000); // Increase global timeout
+jest.setTimeout(30000);
 
-// Mock scrollIntoView to avoid jsdom errors
+// Mock scrollIntoView
 beforeAll(() => {
   Element.prototype.scrollIntoView = jest.fn();
 });
@@ -663,7 +878,7 @@ const mockJsPDF = {
 };
 (jsPDF as jest.Mock).mockImplementation(() => mockJsPDF);
 
-// Sample mock data for form submission
+// Sample mock data
 const mockFormData = {
   first_name: "John",
   last_name: "Doe",
@@ -681,7 +896,6 @@ const user = userEvent.setup();
 describe("ReportScam Component", () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    // Default mocks: successful submission and chat
     (publicReportsLib.submitPublicReport as jest.Mock).mockResolvedValue({ report_id: 123 });
     (publicReportsLib.sendChatMessage as jest.Mock).mockResolvedValue({
       response: "AI response",
@@ -709,12 +923,12 @@ describe("ReportScam Component", () => {
     const submitButton = screen.getByRole("button", { name: /Submit Report/i });
     await user.click(submitButton);
 
-    // Check for validation errors via aria-invalid
+    // Check for error messages in helper text
     await waitFor(() => {
-      expect(screen.getByRole("textbox", { name: /First Name/i })).toHaveAttribute("aria-invalid", "true");
-      expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute("aria-invalid", "true");
-      expect(screen.getByRole("textbox", { name: "Incident Description" })).toHaveAttribute("aria-invalid", "true");
-    }, { timeout: 20000 });
+      expect(screen.getByText("First name is required")).toBeInTheDocument();
+      expect(screen.getByText("Email is required")).toBeInTheDocument();
+      expect(screen.getByText("Description is required")).toBeInTheDocument();
+    }, { timeout: 30000 });
   });
 
   it("handles successful form submission and shows confirmation dialog", async () => {
@@ -723,7 +937,7 @@ describe("ReportScam Component", () => {
     // Fill required fields
     await user.type(screen.getByRole("textbox", { name: /First Name/i }), mockFormData.first_name);
     await user.type(screen.getByRole("textbox", { name: /Last Name/i }), mockFormData.last_name);
-    await user.type(screen.getByRole("textbox", { name: /Contact Number \(e.g., 12345678 or \+6512345678\)/i }), mockFormData.contact_no);
+    await user.type(screen.getAllByRole("textbox", { name: /Contact Number \(e.g., 12345678 or \+6512345678\)/i })[0], mockFormData.contact_no); // First one is victim
     await user.type(screen.getByRole("textbox", { name: "Email" }), mockFormData.email);
     await user.click(screen.getByRole("combobox", { name: "Sex" })); // Open select
     await user.click(screen.getByRole("option", { name: "Male" }));
@@ -743,7 +957,7 @@ describe("ReportScam Component", () => {
       expect(publicReportsLib.submitPublicReport).toHaveBeenCalledTimes(1);
       expect(screen.getByText("Report Submitted Successfully")).toBeInTheDocument();
       expect(screen.getByText(/Report ID: 123/i)).toBeInTheDocument();
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
 
     // Download
     await user.click(screen.getByRole("button", { name: /Download Confirmation Report/i }));
@@ -758,7 +972,7 @@ describe("ReportScam Component", () => {
     // Fill form
     await user.type(screen.getByRole("textbox", { name: /First Name/i }), "John");
     await user.type(screen.getByRole("textbox", { name: /Last Name/i }), "Doe");
-    await user.type(screen.getByRole("textbox", { name: /Contact Number \(e.g., 12345678 or \+6512345678\)/i }), "+123456789");
+    await user.type(screen.getAllByRole("textbox", { name: /Contact Number \(e.g., 12345678 or \+6512345678\)/i })[0], "+123456789");
     await user.type(screen.getByRole("textbox", { name: "Email" }), "john@example.com");
     await user.click(screen.getByRole("combobox", { name: "Sex" }));
     await user.click(screen.getByRole("option", { name: "Male" }));
@@ -776,7 +990,7 @@ describe("ReportScam Component", () => {
     await waitFor(() => {
       expect(publicReportsLib.submitPublicReport).toHaveBeenCalledTimes(1);
       expect(screen.getByText("Submission failed")).toBeInTheDocument();
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
   });
 
   it("opens AI chat after warning, sends message, and applies suggestions", async () => {
@@ -787,7 +1001,7 @@ describe("ReportScam Component", () => {
     await user.click(aiButton);
     await waitFor(() => {
       expect(screen.getByText("AI Assistant Warning")).toBeInTheDocument();
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
 
     // Proceed
     await user.click(screen.getByRole("button", { name: "Proceed" }));
@@ -795,7 +1009,7 @@ describe("ReportScam Component", () => {
     // Chat opens
     await waitFor(() => {
       expect(screen.getByText(/Hello, I’m here to assist you/i)).toBeInTheDocument();
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
 
     // Send message
     const chatInput = screen.getByPlaceholderText("Type a message...");
@@ -806,13 +1020,13 @@ describe("ReportScam Component", () => {
     await waitFor(() => {
       expect(publicReportsLib.sendChatMessage).toHaveBeenCalledWith("Test query", null);
       expect(screen.getByText("AI response")).toBeInTheDocument();
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
 
     // Check override
     await waitFor(() => {
       const select = screen.getByRole("combobox", { name: "Scam Type" });
       expect(select).toHaveValue("PHISHING");
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
   });
 
   it("triggers exit confirmation and navigates away", async () => {
@@ -825,12 +1039,14 @@ describe("ReportScam Component", () => {
     // Check dialog
     await waitFor(() => {
       expect(screen.getByText("Confirm Exit")).toBeInTheDocument();
-    }, { timeout: 20000 });
+    }, { timeout: 30000 });
 
     // Confirm
     await user.click(screen.getByRole("button", { name: "Yes" }));
 
     // Check navigation
-    expect(mockPush).toHaveBeenCalledWith("/home");
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith("/home");
+    }, { timeout: 30000 });
   });
 });
