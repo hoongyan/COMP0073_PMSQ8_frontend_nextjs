@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const token = request.cookies.get('authToken')?.value;  
-    const backendRes = await fetch(`${API_BASE_URL}/conversations?limit=${limit}&offset=${offset}`, {
+    const backendRes = await fetch(`${API_BASE_URL}/conversations/?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token || ''}`, 
