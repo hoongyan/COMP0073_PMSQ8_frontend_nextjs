@@ -989,6 +989,7 @@ function EnhancedTable() {
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
   const [selectedRange, setSelectedRange] = React.useState("all");
+  const [sexFilter, setSexFilter] = React.useState("All");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [detailsDialogOpen, setDetailsDialogOpen] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState<RowType | null>(null);
@@ -1102,7 +1103,9 @@ function EnhancedTable() {
       (!startDate || (rowDate && rowDate >= startDate)) &&
       (!endDate || (rowDate && rowDate <= endDate));
 
-    return matchesSearch && matchesDate;
+    const matchesSex = sexFilter === "All" || row.sex === sexFilter;
+    return matchesSearch && matchesDate && matchesSex;
+    // return matchesSearch && matchesDate;
   });
 
   const handleManagePersonsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -1265,6 +1268,19 @@ function EnhancedTable() {
             InputProps={{ startAdornment: <SearchIcon color="action" /> }}
             sx={{ minWidth: 300 }}
           />
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel>Sex</InputLabel>
+            <Select
+              value={sexFilter}
+              label="Sex"
+              onChange={(e) => setSexFilter(e.target.value as string)}
+            >
+              <MenuItem value="All">All</MenuItem>
+              <MenuItem value="MALE">Male</MenuItem>
+              <MenuItem value="FEMALE">Female</MenuItem>
+              <MenuItem value="OTHER">Other</MenuItem>
+            </Select>
+          </FormControl>
           <DateFilterMenu
             startDate={startDate}
             endDate={endDate}
