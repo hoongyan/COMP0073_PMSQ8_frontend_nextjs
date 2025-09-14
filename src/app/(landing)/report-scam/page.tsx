@@ -475,7 +475,7 @@ function ReportScam() {
   };
 
   const confirmExit = () => {
-    router.push("/home");
+    router.push("/");
   };
 
   // Watch for conditional fields

@@ -652,10 +652,10 @@ function SignUp() {
                       fullWidth
                       variant="text"
                       component={NextLink}
-                      href="/contact-support"
+                      href="/contact-us"
                       sx={{ textTransform: 'none' }}
                     >
-                      Contact Support
+                      Contact Us
                     </Button>
                   </Grid>
                 </Grid>
