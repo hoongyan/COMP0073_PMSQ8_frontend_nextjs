@@ -4,8 +4,6 @@ import React from "react";
 import { Suspense } from 'react';
 import { useSearchParams, useRouter } from "next/navigation"; 
 import NextLink from "next/link";
-
-
 import {
   Typography,
   Button,

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/users?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${API_BASE_URL}/users/?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
