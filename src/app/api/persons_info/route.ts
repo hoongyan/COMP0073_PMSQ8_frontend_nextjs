@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const response = await fetch(`${API_BASE_URL}/persons`, {
+    const response = await fetch(`${API_BASE_URL}/persons/`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
