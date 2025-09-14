@@ -408,11 +408,11 @@ const headCells: Array<HeadCell> = [
     alignment: "left",
     label: "Approach Platform",
   },
-  {
-    id: "scam_communication_platform",
-    alignment: "left",
-    label: "Communication Platform",
-  },
+  // {
+  //   id: "scam_communication_platform",
+  //   alignment: "left",
+  //   label: "Communication Platform",
+  // },
   { id: "scam_transaction_type", alignment: "left", label: "Transaction Type" },
   { id: "scam_amount_lost", alignment: "left", label: "Amount Lost" },
   { id: "scam_incident_description", alignment: "left", label: "Description" },
@@ -1718,9 +1718,9 @@ function EnhancedTable() {
                         <TableCell align="left">
                           {row.scam_approach_platform}
                         </TableCell>
-                        <TableCell align="left">
+                        {/* <TableCell align="left">
                           {row.scam_communication_platform}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell align="left">
                           {row.scam_transaction_type}
                         </TableCell>

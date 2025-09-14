@@ -299,7 +299,7 @@ const headCells: Array<HeadCell> = [
   { id: "occupation", alignment: "left", label: "Occupation" },
   { id: "contact_no", alignment: "left", label: "Contact No" },
   { id: "email", alignment: "left", label: "Email" },
-  { id: "postcode", alignment: "left", label: "Postcode" },
+  // { id: "postcode", alignment: "left", label: "Postcode" },
 ];
 
 type EnhancedTableHeadProps = {
@@ -1327,7 +1327,7 @@ function EnhancedTable() {
         <TableContainer sx={{ overflowX: "auto" }}>
           <Table
             aria-labelledby="tableTitle"
-            size={"medium"}
+            size={"small"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -1381,7 +1381,7 @@ function EnhancedTable() {
                       {/* <TableCell align="left">{row.blk}</TableCell>
                       <TableCell align="left">{row.street}</TableCell>
                       <TableCell align="left">{row.unit_no}</TableCell> */}
-                      <TableCell align="left">{row.postcode}</TableCell>
+                      {/* <TableCell align="left">{row.postcode}</TableCell> */}
                       <TableCell padding="none" align="left">
                         <Box
                           sx={{

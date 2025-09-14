@@ -49,9 +49,9 @@ export default function Header() {
             sx={{
               flex: 1,
               display: "flex",
-              justifyContent: "space-around", 
+              justifyContent: "space-around",
               gap: { xs: 1, md: 2 },
-              mx: { xs: 1, md: 4 }, 
+              mx: { xs: 1, md: 4 },
             }}
           >
             <Button

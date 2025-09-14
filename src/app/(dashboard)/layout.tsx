@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="grid gap-4 p-4 grid-cols-[300px_1fr]">
+    <main className="grid gap-0 p-2 grid-cols-[200px_1fr]">
       <Sidebar />
       {children}
     </main>

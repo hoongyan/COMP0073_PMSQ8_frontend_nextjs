@@ -298,7 +298,7 @@ const headCells: Array<{
   { id: "race", alignment: "left", label: "Race" },
   { id: "contactNo", alignment: "left", label: "Contact No" },
   { id: "email", alignment: "left", label: "Email" },
-  { id: "postCode", alignment: "left", label: "Postal Code" },
+  // { id: "postCode", alignment: "left", label: "Postal Code" },
   { id: "registrationDate", alignment: "left", label: "Registration Date" },
   { id: "role", alignment: "left", label: "Role" },
   { id: "status", alignment: "left", label: "Status" },
@@ -1637,7 +1637,7 @@ function EnhancedTable() {
                       <TableCell align="left">{row.race}</TableCell>
                       <TableCell align="left">{row.contactNo}</TableCell>
                       <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.postCode}</TableCell>
+                      {/* <TableCell align="left">{row.postCode}</TableCell> */}
                       <TableCell align="left">
                         {format(parseISO(row.registrationDate), "dd/MM/yy")}
                       </TableCell>
