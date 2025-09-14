@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetch,Agent } from 'undici';
 
-const API_BASE_URL = process.env.API_BASE_URL || 'http://127.0.0.1:8000'; // Use non-public env var for server-side
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'; // Use non-public env var for server-side
 
 export async function POST(request: NextRequest) {
   try {

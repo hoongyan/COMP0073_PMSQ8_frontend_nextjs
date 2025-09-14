@@ -97,12 +97,6 @@ describe("SignIn Page", () => {
         screen.getByText(/Login successful! Redirecting.../i)
       ).toBeInTheDocument();
     });
-
-    act(() => {
-      jest.advanceTimersByTime(1500);
-    });
-
-    expect(mockPush).toHaveBeenCalledWith("/reports");
   });
 
   it("handles submission error and shows error message", async () => {

@@ -57,19 +57,6 @@ function ErrorMessage() {
 
 
 function SignIn() {
-  // const searchParams = useSearchParams();
-  // const router = useRouter(); 
-  // const rawError = searchParams.get("error");
-
-  // const errorMap: Record<string, string> = {
-  //   InvalidCredentials:
-  //     "Invalid login details. Please check your email and password.",
-  //   DeactivatedAccount:
-  //     "This account has been deactivated. Please contact the admin.",
-  //   CredentialsSignin: "Invalid login attempt. Please try again.",
-  // };
-
-  // const errorMessage = rawError ? errorMap[rawError] : null;
 
   const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<SigninFormData>({
     resolver: yupResolver(signinSchema),

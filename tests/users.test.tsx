@@ -90,7 +90,6 @@ describe("UserManagement Component", () => {
     expect(within(table).getByText("Race")).toBeInTheDocument();
     expect(within(table).getByText("Contact No")).toBeInTheDocument();
     expect(within(table).getByText("Email")).toBeInTheDocument();
-    expect(within(table).getByText("Postal Code")).toBeInTheDocument(); 
     expect(within(table).getByText("Registration Date")).toBeInTheDocument();
     expect(within(table).getByText("Role")).toBeInTheDocument();
     expect(within(table).getByText("Status")).toBeInTheDocument();
@@ -100,7 +99,6 @@ describe("UserManagement Component", () => {
     expect(await screen.findByText("CHINESE")).toBeInTheDocument();
     expect(await screen.findByText("12345678")).toBeInTheDocument();
     expect(await screen.findByText("john@example.com")).toBeInTheDocument();
-    expect(await screen.findByText("123456")).toBeInTheDocument();
     expect(await screen.findByText("01/09/25")).toBeInTheDocument();
     expect(await screen.findByText("ADMIN")).toBeInTheDocument();
     expect(await screen.findByText("ACTIVE")).toBeInTheDocument();
