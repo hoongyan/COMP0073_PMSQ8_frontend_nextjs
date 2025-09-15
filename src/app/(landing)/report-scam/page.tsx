@@ -873,7 +873,7 @@ function ReportScam() {
               variant="h5"
               sx={{ fontWeight: 700, color: "#001f3f", mb: 4 }}
             >
-              Victim Details
+              Personal Details
             </Typography>
             <Grid container spacing={3}>
               {/* Row 1: first name, last name, sex, date of birth */}
