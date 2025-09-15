@@ -17,7 +17,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
 import StarIcon from "@mui/icons-material/Star";
 import NextLink from "next/link";
 
@@ -58,7 +57,6 @@ function About() {
         />
         <Fade in timeout={800}>
           <Container maxWidth="md">
-            <LocalPoliceIcon sx={{ fontSize: 80, mb: 2 }} />
             <Typography
               variant="h3"
               component="h1"

@@ -60,7 +60,6 @@ function Advisories() {
         />
         <Fade in timeout={800}>
           <Container maxWidth="md">
-            <WarningIcon sx={{ fontSize: 80, mb: 2 }} />
             <Typography
               variant="h3"
               component="h1"

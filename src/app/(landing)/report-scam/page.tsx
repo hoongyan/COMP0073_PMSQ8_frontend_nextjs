@@ -31,7 +31,6 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -771,7 +770,6 @@ function ReportScam() {
         }}
       >
         <Container maxWidth="md">
-          <ReportProblemIcon sx={{ fontSize: 80, mb: 2 }} />
           <Typography
             variant="h3"
             sx={{ fontFamily: "Inter", fontWeight: 700, mb: 2 }}

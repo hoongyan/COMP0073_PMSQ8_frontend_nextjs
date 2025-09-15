@@ -7,7 +7,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
+import ExploreIcon from "@mui/icons-material/Explore";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import NextLink from "next/link";
 
@@ -26,7 +26,6 @@ export default function Header() {
     <Box sx={{ backgroundColor: "#001f3f" }}>
       <Container maxWidth={false} sx={{ px: { xs: 2, sm: 4, md: 8 } }}>
         {" "}
-        {/* Full width with responsive padding */}
         <Box
           sx={{
             display: "flex",
@@ -39,9 +38,9 @@ export default function Header() {
           <Box
             sx={{ display: "flex", alignItems: "center", mr: { xs: 2, md: 4 } }}
           >
-            <LocalPoliceIcon sx={{ color: "white", fontSize: 32, mr: 1 }} />
+            <ExploreIcon sx={{ color: "white", fontSize: 32, mr: 1 }} />
             <Typography variant="h6" sx={{ color: "white", fontWeight: 700 }}>
-              Police Scam Reporting Site
+              ScamOrion
             </Typography>
           </Box>
           {/* Center: Main Navigation Links - Spread out with space-around */}

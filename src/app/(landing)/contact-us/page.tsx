@@ -16,7 +16,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import NextLink from "next/link";
@@ -57,7 +56,6 @@ function ContactUs() {
           }}
         />
         <Container maxWidth="md">
-          <LocalPoliceIcon sx={{ fontSize: 80, mb: 2 }} />
           <Typography
             variant="h3"
             component="h1"

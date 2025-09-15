@@ -14,7 +14,6 @@ import {
   Fade,
   Link,
 } from "@mui/material";
-import LocalPoliceIcon from "@mui/icons-material/LocalPolice";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import InfoIcon from "@mui/icons-material/Info";
 import NextLink from "next/link";
@@ -56,7 +55,6 @@ function Home() {
         />
         <Fade in timeout={800}>
           <Container maxWidth="md">
-            <LocalPoliceIcon sx={{ fontSize: 80, mb: 2 }} />
             <Typography
               variant="h3"
               component="h1"
