@@ -896,7 +896,7 @@ function ConversationsPage() {
               color: "#001f3f",
             }}
           >
-            Conversations
+            AI Conversations
           </Typography>
           <Box sx={{ height: "20px" }} />
         </Grid>

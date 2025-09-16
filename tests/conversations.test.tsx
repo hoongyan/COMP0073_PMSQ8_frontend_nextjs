@@ -61,7 +61,7 @@ describe("ConversationsPage Component", () => {
       render(<ConversationsPage />);
     });
     expect(
-      screen.getByRole("heading", { name: "Conversations", level: 3 })
+      screen.getByRole("heading", { name: "AI Conversations", level: 3 })
     ).toBeInTheDocument();
   });
 
