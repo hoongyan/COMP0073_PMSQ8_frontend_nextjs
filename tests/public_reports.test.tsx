@@ -99,7 +99,7 @@ describe("ReportScam Component", () => {
         screen.getByLabelText("Incident Description *")
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /Ask AI Assistant Now/i })
+        screen.getByRole("button", { name: /Ask Co-Pilot \(AI Assistant\)/i })
       ).toBeInTheDocument();
     });
   });
@@ -259,7 +259,7 @@ describe("ReportScam Component", () => {
 
     // Click AI button
     const aiButton = screen.getByRole("button", {
-      name: /Ask AI Assistant Now/i,
+      name: /Ask Co-Pilot \(AI Assistant\)/i,
     });
     await user.click(aiButton);
 

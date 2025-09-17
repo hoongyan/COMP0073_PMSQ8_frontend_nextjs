@@ -784,8 +784,9 @@ function ReportScam() {
             variant="h6"
             sx={{ color: "#ffeb3b", fontWeight: 600, mb: 2 }}
           >
-            Need Help? Our AI Assistant Can Guide You and Help Fill the Form for
-            a More Comprehensive Report!
+            Let Co-Pilot, our AI assistant, take care of the scam details — just
+            answer its questions, and it will complete that part of the form for
+            you. You only need to fill in your personal information.
           </Typography>
           <Button
             variant="contained"
@@ -805,7 +806,7 @@ function ReportScam() {
               fontWeight: 600,
             }}
           >
-            Ask AI Assistant Now
+            Ask Co-Pilot (AI Assistant)
           </Button>
         </Container>
       </Box>
