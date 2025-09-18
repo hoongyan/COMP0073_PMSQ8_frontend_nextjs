@@ -17,14 +17,12 @@ jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
-jest.setTimeout(30000); // Global timeout for slow tests
+jest.setTimeout(30000);
 
-// Mock scrollIntoView to avoid JSDOM errors
 beforeAll(() => {
   Element.prototype.scrollIntoView = jest.fn();
 });
 
-// Custom render wrapper with MUI providers (needed for theme and date picker)
 const theme = createTheme();
 const renderWithProviders = (ui: React.ReactElement) => {
   return render(
@@ -58,7 +56,7 @@ const mockJsPDF = {
 };
 (jsPDF as jest.Mock).mockImplementation(() => mockJsPDF);
 
-// Sample mock data (minimal required fields for submission)
+// mock data
 const mockFormData = {
   first_name: "John",
   last_name: "Doe",
@@ -70,7 +68,6 @@ const mockFormData = {
   scam_incident_description: "Test description",
 };
 
-// Setup userEvent
 const user = userEvent.setup();
 
 describe("ReportScam Component", () => {
@@ -123,7 +120,6 @@ describe("ReportScam Component", () => {
   it("handles successful form submission, shows confirmation dialog, and downloads PDF", async () => {
     renderWithProviders(<ReportScam />);
 
-    // Fill minimal required fields
     await user.type(
       screen.getByLabelText(/First Name/i),
       mockFormData.first_name
@@ -138,35 +134,29 @@ describe("ReportScam Component", () => {
     );
     await user.type(screen.getByLabelText("Email *"), mockFormData.email);
 
-    // Select sex (index 0: sex combobox)
     const comboboxes = screen.getAllByRole("combobox");
     const sexSelect = comboboxes[0];
     await user.click(sexSelect);
     await user.click(screen.getByRole("option", { name: "Male" }));
 
-    // Select role (index 2: role combobox)
     const roleSelect = comboboxes[2];
     await user.click(roleSelect);
     await user.click(screen.getByRole("option", { name: "Victim" }));
 
-    // Date picker
     const dateField = screen.getByRole("group", { name: /Scam Incident Date/ });
     await user.click(dateField);
     await user.keyboard("{selectall}{backspace}");
     await user.keyboard(mockFormData.scam_incident_date);
     await user.keyboard("{enter}"); // Confirm date
 
-    // Description
     await user.type(
       screen.getByLabelText("Incident Description *"),
       mockFormData.scam_incident_description
     );
 
-    // Submit
     const submitButton = screen.getByRole("button", { name: /Submit Report/i });
     await user.click(submitButton);
 
-    // Check API called and dialog opens
     await waitFor(() => {
       expect(publicReportsLib.submitPublicReport).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -186,14 +176,12 @@ describe("ReportScam Component", () => {
       expect(screen.getByText(/Report ID: 123/i)).toBeInTheDocument();
     });
 
-    // Download PDF
     const downloadButton = screen.getByRole("button", {
       name: /Download Confirmation Report/i,
     });
     await user.click(downloadButton);
     expect(mockJsPDF.save).toHaveBeenCalledWith("scam-report-123.pdf");
 
-    // Click OK to navigate
     const okButton = screen.getByRole("button", { name: "OK" });
     await user.click(okButton);
     expect(mockPush).toHaveBeenCalledWith("/");
@@ -206,7 +194,6 @@ describe("ReportScam Component", () => {
 
     renderWithProviders(<ReportScam />);
 
-    // Fill minimal required fields (reuse from success test for simplicity)
     await user.type(
       screen.getByLabelText(/First Name/i),
       mockFormData.first_name
@@ -221,13 +208,11 @@ describe("ReportScam Component", () => {
     );
     await user.type(screen.getByLabelText("Email *"), mockFormData.email);
 
-    // Select sex (index 0: sex combobox)
     const comboboxes = screen.getAllByRole("combobox");
     const sexSelect = comboboxes[0];
     await user.click(sexSelect);
     await user.click(screen.getByRole("option", { name: "Male" }));
 
-    // Select role (index 2: role combobox)
     const roleSelect = comboboxes[2];
     await user.click(roleSelect);
     await user.click(screen.getByRole("option", { name: "Victim" }));
@@ -243,11 +228,9 @@ describe("ReportScam Component", () => {
       mockFormData.scam_incident_description
     );
 
-    // Submit
     const submitButton = screen.getByRole("button", { name: /Submit Report/i });
     await user.click(submitButton);
 
-    // Check snackbar error
     await waitFor(() => {
       expect(publicReportsLib.submitPublicReport).toHaveBeenCalledTimes(1);
       expect(screen.getByText("Submission failed")).toBeInTheDocument();
@@ -256,21 +239,17 @@ describe("ReportScam Component", () => {
 
   it("opens AI chat after warning, sends message, applies suggestions, and shows snackbar", async () => {
     renderWithProviders(<ReportScam />);
-
-    // Click AI button
     const aiButton = screen.getByRole("button", {
       name: /Ask Co-Pilot \(AI Assistant\)/i,
     });
     await user.click(aiButton);
 
-    // Check and proceed through warning dialog
     await waitFor(() => {
       expect(screen.getByText("AI Assistant Warning")).toBeInTheDocument();
     });
     const proceedButton = screen.getByRole("button", { name: "Proceed" });
     await user.click(proceedButton);
 
-    // Check chat opens with initial message
     await waitFor(() => {
       expect(screen.getByText("AI Assistant Chat")).toBeInTheDocument();
       expect(
@@ -278,23 +257,21 @@ describe("ReportScam Component", () => {
       ).toBeInTheDocument();
     });
 
-    // Type and send message
     const chatInput = screen.getByPlaceholderText("Type a message...");
     await user.type(chatInput, "Test query");
     const sendButton = screen.getByRole("button", { name: /Send/i });
     await user.click(sendButton);
 
-    // Check API called, response appears, and suggestions applied (check form field and snackbar)
     await waitFor(() => {
       expect(publicReportsLib.sendChatMessage).toHaveBeenCalledWith(
         expect.stringContaining("Test query"),
         null
       );
-      expect(screen.getByText("Test query")).toBeInTheDocument(); // User message
-      expect(screen.getByText("AI response")).toBeInTheDocument(); // AI response
+      expect(screen.getByText("Test query")).toBeInTheDocument();
+      expect(screen.getByText("AI response")).toBeInTheDocument();
       const comboboxes = screen.getAllByRole("combobox");
-      const scamTypeSelect = comboboxes[3]; // index 3: scam_type combobox
-      expect(scamTypeSelect).toHaveTextContent("Phishing Scam"); // Auto-filled display text
+      const scamTypeSelect = comboboxes[3];
+      expect(scamTypeSelect).toHaveTextContent("Phishing Scam");
       expect(
         screen.getByText("AI suggestions applied automatically!")
       ).toBeInTheDocument(); // Snackbar
@@ -304,20 +281,16 @@ describe("ReportScam Component", () => {
   it("triggers exit confirmation and navigates away", async () => {
     renderWithProviders(<ReportScam />);
 
-    // Click exit button
     const exitButton = screen.getByRole("button", { name: "Exit" });
     await user.click(exitButton);
 
-    // Check confirmation dialog
     await waitFor(() => {
       expect(screen.getByText("Confirm Exit")).toBeInTheDocument();
     });
 
-    // Confirm yes
     const yesButton = screen.getByRole("button", { name: "Yes" });
     await user.click(yesButton);
 
-    // Check navigation
     expect(mockPush).toHaveBeenCalledWith("/");
   });
 });

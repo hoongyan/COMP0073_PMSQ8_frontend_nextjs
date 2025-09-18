@@ -1,13 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
-import ConversationsPage from "@/app/(dashboard)/admin/conversations/page"; 
+import ConversationsPage from "@/app/(dashboard)/admin/conversations/page";
 import * as conversationsLib from "@/lib/conversations";
-
 
 jest.mock("@/lib/conversations");
 
-// Sample mock data
+// mock data
 const mockConversations: conversationsLib.RowType[] = [
   {
     conversationId: "1",
@@ -134,7 +133,6 @@ describe("ConversationsPage Component", () => {
       { timeout: 10000 }
     );
 
-    // Click on a specific cell to avoid interceptors
     const idCell = screen.getByText(mockConversations[0].conversationId);
     await act(async () => {
       await user.click(idCell);
@@ -150,7 +148,6 @@ describe("ConversationsPage Component", () => {
       { timeout: 10000 }
     );
 
-    // Check if messages are displayed in the dialog
     expect(
       screen.getByText("Hello, this is a test message.")
     ).toBeInTheDocument();
@@ -194,7 +191,6 @@ describe("ConversationsPage Component", () => {
       { timeout: 10000 }
     );
 
-    // Check for success snackbar
     await waitFor(
       () =>
         expect(

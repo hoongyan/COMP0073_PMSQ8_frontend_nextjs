@@ -1,12 +1,12 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
-import UserManagement from "@/app/(dashboard)/admin/usermanagement/page"; 
+import UserManagement from "@/app/(dashboard)/admin/usermanagement/page";
 import * as usersLib from "@/lib/users";
 
 jest.mock("@/lib/users");
 
-// Sample mock data
+// mock data
 const mockUsers: usersLib.RowType[] = [
   {
     userId: 1,
@@ -75,14 +75,12 @@ describe("UserManagement Component", () => {
       timeout: 10000,
     });
 
-    // Find first and last names separately
     await screen.findByText("JOHN", { timeout: 10000 });
     await screen.findByText("DOE", { timeout: 10000 });
 
     const table = screen.getByRole("table");
 
-
-    expect(within(table).getByText("User ID")).toBeInTheDocument(); 
+    expect(within(table).getByText("User ID")).toBeInTheDocument();
     expect(within(table).getByText("First Name")).toBeInTheDocument();
     expect(within(table).getByText("Last Name")).toBeInTheDocument();
     expect(within(table).getByText("Sex")).toBeInTheDocument();
@@ -124,7 +122,7 @@ describe("UserManagement Component", () => {
     await waitFor(() => expect(usersLib.fetchUsers).toHaveBeenCalledTimes(1), {
       timeout: 10000,
     });
-    // Update to check for first name
+
     await waitFor(
       () => expect(screen.queryByText("JOHN")).not.toBeInTheDocument(),
       { timeout: 10000 }
@@ -132,7 +130,7 @@ describe("UserManagement Component", () => {
 
     const table = screen.getByRole("table");
     const rows = within(table).getAllByRole("row");
-    expect(rows.length).toBe(2); 
+    expect(rows.length).toBe(2);
   }, 30000);
 
   it("handles fetch error and shows snackbar", async () => {
@@ -156,7 +154,7 @@ describe("UserManagement Component", () => {
     await waitFor(() => expect(usersLib.fetchUsers).toHaveBeenCalledTimes(1), {
       timeout: 10000,
     });
-    // Find first and last names separately
+
     await waitFor(() => expect(screen.getByText("JOHN")).toBeInTheDocument(), {
       timeout: 10000,
     });
@@ -184,7 +182,7 @@ describe("UserManagement Component", () => {
     await waitFor(() => expect(usersLib.fetchUsers).toHaveBeenCalledTimes(1), {
       timeout: 10000,
     });
-    // Find first and last names separately
+
     await waitFor(() => expect(screen.getByText("JOHN")).toBeInTheDocument(), {
       timeout: 10000,
     });

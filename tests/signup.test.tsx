@@ -76,7 +76,6 @@ describe("SignUp Page", () => {
       render(<SignUp />);
     });
 
-    // Fill some fields but mismatch passwords
     await act(async () => {
       await user.type(
         screen.getByLabelText(/^Email Address/),
@@ -115,7 +114,6 @@ describe("SignUp Page", () => {
       render(<SignUp />);
     });
 
-    // Fill required fields
     await act(async () => {
       await user.type(
         screen.getByLabelText(/^Email Address/),

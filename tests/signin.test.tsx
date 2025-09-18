@@ -16,7 +16,6 @@ describe("SignIn Page", () => {
   let mockPush: jest.Mock;
 
   beforeEach(() => {
-    // Reset mocks
     jest.clearAllMocks();
 
     (useSearchParams as jest.Mock).mockReturnValue({
@@ -100,7 +99,6 @@ describe("SignIn Page", () => {
   });
 
   it("handles submission error and shows error message", async () => {
-    // Mock error from signin
     (authLib.signin as jest.Mock).mockRejectedValue(
       new Error("Incorrect email or password.")
     );
@@ -150,7 +148,6 @@ describe("SignIn Page", () => {
       await userEvent.click(submitButton);
     });
 
-    // Spinner appears (CircularProgress)
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
 

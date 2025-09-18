@@ -10,7 +10,7 @@ import { format, parseISO } from "date-fns";
 
 jest.mock("@/lib/persons");
 
-// Sample mock data
+// mock data
 const mockPersons: RowType[] = [
   {
     person_id: "1",
@@ -48,7 +48,6 @@ const mockPersons: RowType[] = [
 
 const mockLinkedReports: LinkedReport[] = [];
 
-// Setup userEvent
 const user = userEvent.setup();
 
 describe("PersonsOfInterest Component", () => {
@@ -78,7 +77,7 @@ describe("PersonsOfInterest Component", () => {
   it("fetches and displays persons data in the table", async () => {
     await act(async () => {
       render(<PersonsOfInterest />);
-      await Promise.resolve(); // Flush initial effects
+      await Promise.resolve(); 
     });
 
     await waitFor(
