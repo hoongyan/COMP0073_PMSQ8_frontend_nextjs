@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import NextLink from "next/link";
 import {
   Alert,
   Box,
@@ -35,22 +34,15 @@ import {
   Select,
   Snackbar,
   Popover,
-  List,
-  ListItem,
-  ListItemText,
   Chip as MuiChip,
 } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material/Select";
 import { green, orange, grey } from "@mui/material/colors";
 import {
   Add as AddIcon,
-  Archive as ArchiveIcon,
   FilterList as FilterListIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
   Delete as DeleteIcon,
   Edit as EditIcon,
   Search as SearchIcon,
-  Refresh as RefreshIcon,
 } from "@mui/icons-material";
 import { format, startOfDay, endOfDay, parseISO } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -59,7 +51,6 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
 import { fetchUsers, createUser, updateUser, deleteUser, resetPassword, RowType } from "@/lib/users";
 
 function DateFilterMenu({
@@ -422,15 +413,15 @@ const UserDetailsPopup = ({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      {/* DialogTitle: Matches persons_page.tsx - background light grey, border bottom */}
+
       <DialogTitle
         sx={{ backgroundColor: "#f5f5f5", borderBottom: "1px solid #ddd" }}
       >
         User Details - {row.firstName} {row.lastName}
       </DialogTitle>
-      {/* DialogContent: Padding 4, background light grey to make it feel bigger/spacier */}
+
       <DialogContent sx={{ p: 4, backgroundColor: "grey.50" }}>
-        {/* Section 1: Account Information */}
+
         <Box
           sx={{
             border: 1,
@@ -481,7 +472,7 @@ const UserDetailsPopup = ({
                 </Typography>
                 <MuiChip
                   size="small"
-                  // label={row.status === "PENDING" ? "Pending Approval" : row.status.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase())}
+               
                   label={row.status.toUpperCase()}
                   sx={{
                     backgroundColor: statusColors[row.status],
@@ -493,7 +484,7 @@ const UserDetailsPopup = ({
           </Grid>
         </Box>
 
-        {/* Section 2: Personal Information */}
+      
         <Box
           sx={{
             border: 1,
@@ -562,7 +553,6 @@ const UserDetailsPopup = ({
           </Grid>
         </Box>
 
-        {/* Section 3: Contact Information */}
         <Box
           sx={{
             border: 1,
@@ -597,7 +587,6 @@ const UserDetailsPopup = ({
           </Grid>
         </Box>
 
-        {/* Section 4: Address */}
         <Box
           sx={{
             border: 1,
@@ -1210,8 +1199,6 @@ const ManageDialog = ({
           <Button onClick={confirmStatusChange}>Confirm</Button>
         </DialogActions>
       </Dialog>
-  
-      {/* Delete confirm dialog - now a sibling, not nested */}
       <Dialog
         open={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}

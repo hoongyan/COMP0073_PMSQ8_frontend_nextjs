@@ -34,7 +34,7 @@ export default function Header() {
             width: "100%",
           }}
         >
-          {/* Left: Logo */}
+          {/* Logo */}
           <Box
             sx={{ display: "flex", alignItems: "center", mr: { xs: 2, md: 4 } }}
           >
@@ -43,7 +43,7 @@ export default function Header() {
               ScamOrion
             </Typography>
           </Box>
-          {/* Center: Main Navigation Links - Spread out with space-around */}
+          {/* Main Navigation Links*/}
           <Box
             sx={{
               flex: 1,
@@ -102,7 +102,7 @@ export default function Header() {
               Contact Us
             </Button>
           </Box>
-          {/* Right: For Staff and Report a Scam */}
+          {/* For Staff and Report a Scam */}
           <Box
             sx={{
               display: "flex",
@@ -137,13 +137,13 @@ export default function Header() {
                 Sign Up
               </MenuItem>
             </Menu>
-            {/* Big Report a Scam Button */}
+
             <Button
               variant="contained"
               component={NextLink}
               href="/report-scam"
               sx={{
-                backgroundColor: "#ff4d4f", // Red for urgency
+                backgroundColor: "#ff4d4f", 
                 color: "white",
                 px: { xs: 2, md: 4 },
                 py: 1.5,

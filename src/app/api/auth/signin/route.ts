@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   const body = await request.json(); // { email, password }
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Use your .env var; it's available on server too
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; 
 
   try {
     const backendRes = await fetch(`${API_BASE_URL}/api/auth/signin`, {
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     if (!backendRes.ok || !data.token) {
       let errorMessage = data.detail || 'Login failed';
       if (backendRes.status >= 500) {
-        errorMessage = 'An unexpected server error occurred during signin. Please try again later.'; // Generic for DB/server issues
+        errorMessage = 'An unexpected server error occurred during signin. Please try again later.'; 
       } 
 
       return NextResponse.json({ error: errorMessage }, { status: backendRes.status });

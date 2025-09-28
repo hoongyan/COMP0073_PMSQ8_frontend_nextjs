@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Define protected paths based on URLs 
-const protectedPaths = ['/reports', '/persons_info']; // URL startsWith checks
+// Define protected paths 
+const protectedPaths = ['/reports', '/persons_info']; 
 const adminOnlyPaths = ['/admin/conversations', '/admin/usermanagement']; 
 
 export async function middleware(request: NextRequest) {
@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
   // For admin-only paths, fetch /users/me to check role
   if (adminOnlyPaths.some(path => pathname.startsWith(path))) {
     try {
-      console.log('Checking admin role for path:', pathname); // Debug
+      console.log('Checking admin role for path:', pathname); 
       
       console.log('API_URL from env:', process.env.NEXT_PUBLIC_API_URL);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/users/me`, {
@@ -48,7 +48,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/unauthorized', request.url), 302);
       }
     } catch (error) {
-      console.error('Role check failed:', error); // Error handling: Log for debugging (add Sentry in prod)
+      console.error('Role check failed:', error); 
       return NextResponse.redirect(new URL('/auth/sign-in', request.url), 302);
     }
   }
@@ -58,7 +58,6 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Matcher config
 export const config = {
   matcher: [
     '/reports/:path*',      

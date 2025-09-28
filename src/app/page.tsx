@@ -18,15 +18,14 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import InfoIcon from "@mui/icons-material/Info";
 import NextLink from "next/link";
 
-import Header from "@/components/landing/Header"; // Import the separate Header component
+import Header from "@/components/landing/Header"; 
 
 function Home() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header /> {/* Use the imported Header here */}
+      <Header /> 
 
-      {/* Hero Section: Engaging Welcome with Call to Action */}
       <Box
         sx={{
           position: "relative",
@@ -40,7 +39,7 @@ function Home() {
           textAlign: "center",
         }}
       >
-        {/* Subtle Background Elements */}
+
         <Box
           sx={{
             position: "absolute",
@@ -94,9 +93,9 @@ function Home() {
         </Fade>
       </Box>
 
-      {/* Main Content Sections: Informative and Action-Oriented */}
+
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        {/* Quick Actions Grid */}
+
         <Typography
           variant="h4"
           component="h2"
@@ -174,7 +173,6 @@ function Home() {
         </Grid>
       </Container>
 
-      {/* Footer: Simple and Informative */}
       <Box
         sx={{
           backgroundColor: "#001f3f",

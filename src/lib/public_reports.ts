@@ -14,9 +14,9 @@ export interface PublicReportSubmission {
     street?: string;
     unit_no?: string;
     postcode?: string;
-    role?: string; // e.g., "victim" or "reportee"
-    scam_incident_date: string; // YYYY-MM-DD
-    scam_report_date?: string; // YYYY-MM-DD, optional
+    role?: string; 
+    scam_incident_date: string; 
+    scam_report_date?: string; 
     scam_type?: string;
     scam_approach_platform?: string;
     scam_communication_platform?: string;
@@ -36,28 +36,6 @@ export interface PublicReportSubmission {
     role: "user" | "ai";
     content: string;
   }
-
-// export async function submitPublicReport(data: PublicReportSubmission): Promise<{ report_id: number; conversation_id?: number }> {
-//   const response = await fetch('/api/public/reports/submit', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(data),
-//     cache: 'no-store', // Match your fetch style
-//   });
-
-//   if (!response.ok) {
-//     const errorData = await response.json();
-//     throw new Error(errorData.error || `Failed to submit report: ${response.statusText}`);
-//   }
-
-//   const result = await response.json();
-//   return {
-//     report_id: result.report_id,
-//     conversation_id: result.conversation_id ?? undefined,
-//   };
-// }
 
 export async function submitPublicReport(data: PublicReportSubmission): Promise<{ report_id: number; conversation_id?: number }> {
   const response = await fetch('/api/reports/submit', {
@@ -93,27 +71,6 @@ export async function submitPublicReport(data: PublicReportSubmission): Promise<
   };
 }
 
-// export async function sendChatMessage(query: string, conversation_id: number | null): Promise<{ response: string; conversation_id?: number }> {
-//   const response = await fetch('/api/chat', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ query, conversation_id }),
-//     cache: 'no-store', // Match your fetch style
-//   });
-
-//   if (!response.ok) {
-//     const errorData = await response.json();
-//     throw new Error(errorData.error || `Failed to send message: ${response.statusText}`);
-//   }
-
-//   const result = await response.json();
-//   return {
-//     response: result.response, // Assume backend returns {response: str, conversation_id?: int}
-//     conversation_id: result.conversation_id ?? undefined,
-//   };
-// }
 
 export async function sendChatMessage(query: string, conversation_id: number | null): Promise<{ response: string; conversation_id?: number; structured_data: Record<string, any> }> {
   const response = await fetch('/api/chat', {
@@ -134,6 +91,6 @@ export async function sendChatMessage(query: string, conversation_id: number | n
   return {
     response: result.response,
     conversation_id: result.conversation_id ?? undefined,
-    structured_data: result.structured_data || {},  // Add this—fallback to empty object if missing
+    structured_data: result.structured_data || {},  
   };
 }

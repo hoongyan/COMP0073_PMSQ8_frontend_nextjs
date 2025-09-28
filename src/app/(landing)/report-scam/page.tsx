@@ -19,13 +19,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Drawer,
   Paper,
   Snackbar,
   IconButton,
   useMediaQuery,
   useTheme,
-  Tooltip,
   Popover,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -77,7 +75,7 @@ function ReportScam() {
     },
   ];
 
-  // Yup validation schema based on PublicReport and public_reports.py validators
+  // Yup validation schema 
   const validationSchema = yup.object({
     first_name: yup
       .string()
@@ -185,7 +183,7 @@ function ReportScam() {
       street: "",
       unit_no: "",
       postcode: "",
-      role: "reportee", // Default as per model
+      role: "reportee", 
       scam_incident_date: "",
       scam_type: "",
       scam_approach_platform: "",
@@ -278,9 +276,9 @@ function ReportScam() {
       if (value && key.startsWith("scam_")) {
         let finalValue: any = value; // Start with raw value (could be string/number)
         if (finalValue === "") return; // Skip empty strings
-        console.log(`Attempting to set ${key} to ${finalValue}`); // Debug log
+        console.log(`Attempting to set ${key} to ${finalValue}`); 
 
-        // Special handling for numeric fields: Parse to number
+        // Special handling for numeric fields
         if (key === "scam_amount_lost") {
           finalValue = parseFloat(finalValue.toString()) || null; // Parse to number; fallback to null if invalid
         } else if (!fieldsNotToUpper.includes(key)) {
@@ -334,14 +332,14 @@ function ReportScam() {
                 "OTHERS",
               ],
             }[key] || [];
-          const match = fuzzyMatch(finalValue.toString(), options); // Use toString() for fuzzy
+          const match = fuzzyMatch(finalValue.toString(), options); 
           if (match) {
-            console.log(`Matched ${key} to ${match}`); // Log match
+            console.log(`Matched ${key} to ${match}`); 
             setFormField(key as keyof PublicReportSubmission, match);
           } else {
             console.log(
               `No match for ${key}, setting to 'OTHERS' with other: ${finalValue}`
-            ); // Log fallback
+            ); 
             setFormField(key as keyof PublicReportSubmission, "OTHERS");
             const otherSetters = {
               scam_type: setOtherScamType,
@@ -349,7 +347,7 @@ function ReportScam() {
               scam_communication_platform: setOtherCommunicationPlatform,
               scam_transaction_type: setOtherTransactionType,
             }[key];
-            if (otherSetters) otherSetters(finalValue.toString()); // Use string for "other" text fields
+            if (otherSetters) otherSetters(finalValue.toString()); 
           }
         } else {
           setFormField(key as keyof PublicReportSubmission, finalValue);
@@ -408,7 +406,7 @@ function ReportScam() {
         ? otherTransactionType
         : data.scam_transaction_type;
 
-    // Uppercase fields as per public_reports.py
+    // Uppercase fields
     const personFieldsToUpper = [
       "first_name",
       "last_name",
@@ -475,7 +473,6 @@ function ReportScam() {
     const pageHeight = 280;
     let yPos = 20;
 
-    // Helper function to add text with auto-pagination
     const addText = (
       text: string | string[],
       fontSize: number,
@@ -485,8 +482,8 @@ function ReportScam() {
       doc.setFontSize(fontSize);
       doc.setFont("helvetica", isBold ? "bold" : "normal");
 
-      const lineHeight = fontSize * 0.5; // Approx line height (adjust if needed; ~7 for size 11-14)
-      const lines = Array.isArray(text) ? text : doc.splitTextToSize(text, 170); // Wrap single strings
+      const lineHeight = fontSize * 0.5; 
+      const lines = Array.isArray(text) ? text : doc.splitTextToSize(text, 170); 
       const requiredHeight = lines.length * lineHeight;
 
       if (yPos + requiredHeight > pageHeight) {
@@ -677,13 +674,13 @@ function ReportScam() {
 
     addDivider();
 
-    // Section 3: Incident Description (already split, now with pagination)
+
     addText("Incident Description", 14, true);
     const descriptionLines = doc.splitTextToSize(
       submittedData.scam_incident_description || "N/A",
       170
     );
-    addText(descriptionLines, 11); // Handles multi-line and pagination
+    addText(descriptionLines, 11); 
 
     doc.save(`scam-report-${reportId}.pdf`);
   };
@@ -820,7 +817,7 @@ function ReportScam() {
             position: "relative",
           }}
         >
-          {/* Form (left side) */}
+          {/* Form */}
           <Box
             sx={{
               flex: { sm: "0 0 70%" },
@@ -867,7 +864,7 @@ function ReportScam() {
               </Box>
             </Alert>
 
-            {/* Victim Details Section */}
+            {/* Personal Details Section */}
             <Typography
               variant="h5"
               sx={{ fontWeight: 700, color: "#001f3f", mb: 4 }}
@@ -875,7 +872,7 @@ function ReportScam() {
               Personal Details
             </Typography>
             <Grid container spacing={3}>
-              {/* Row 1: first name, last name, sex, date of birth */}
+ 
               <Grid size={{ xs: 12, sm: 3 }}>
                 <Controller
                   name="first_name"
@@ -955,7 +952,6 @@ function ReportScam() {
                 />
               </Grid>
 
-              {/* Row 2: nationality, race, occupation, role */}
               <Grid size={{ xs: 12, sm: 3 }}>
                 <Controller
                   name="nationality"
@@ -1037,7 +1033,6 @@ function ReportScam() {
                 </FormControl>
               </Grid>
 
-              {/* Row 3: contact number, email */}
               <Grid size={{ xs: 12, sm: 6 }}>
                 <Controller
                   name="contact_no"
@@ -1071,7 +1066,6 @@ function ReportScam() {
                 />
               </Grid>
 
-              {/* Row 4: blk, street, unit number, postal code */}
               <Grid size={{ xs: 12, sm: 3 }}>
                 <Controller
                   name="blk"
@@ -1142,7 +1136,7 @@ function ReportScam() {
               Scam Details
             </Typography>
             <Grid container spacing={3}>
-              {/* Row 1: scam incident date, scam type, amount lost */}
+
               <Grid size={{ xs: 12, sm: 4 }}>
                 <Controller
                   name="scam_incident_date"
@@ -1295,7 +1289,6 @@ function ReportScam() {
                 </FormControl>
               </Grid>
 
-              {/* Row 3: transaction type, beneficiary platform, beneficiary identifier */}
               <Grid size={{ xs: 12, sm: 4 }}>
                 <FormControl fullWidth sx={{ minWidth: 200 }}>
                   <InputLabel>Transaction Type</InputLabel>
@@ -1363,7 +1356,6 @@ function ReportScam() {
                 />
               </Grid>
 
-              {/* Row 4: scammer phone number, scammer email */}
               <Grid size={{ xs: 12, sm: 6 }}>
                 <Controller
                   name="scam_contact_no"
@@ -1395,7 +1387,6 @@ function ReportScam() {
                 />
               </Grid>
 
-              {/* Row 5: scammer moniker/username, scam url/link */}
               <Grid size={{ xs: 12, sm: 6 }}>
                 <Controller
                   name="scam_moniker"
@@ -1427,7 +1418,6 @@ function ReportScam() {
                 />
               </Grid>
 
-              {/* Row 6: scam incident description */}
               <Grid size={12}>
                 <Controller
                   name="scam_incident_description"
@@ -1664,14 +1654,6 @@ function ReportScam() {
                       </Typography>
                     </Box>
                   </Popover>
-                  {/* <Button
-                    variant="contained"
-                    endIcon={<SendIcon />}
-                    onClick={handleAiSend}
-                    disabled={aiLoading || !aiInput.trim()}
-                  >
-                    Send
-                  </Button> */}
                 </Box>
               </Paper>
             )}

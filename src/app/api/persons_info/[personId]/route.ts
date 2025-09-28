@@ -36,7 +36,7 @@ export async function PUT(request: NextRequest, context : { params: { personId: 
 
       let errorMessage = errorData.detail || 'Failed to update person';
       if (response.status >= 500) {
-        errorMessage = 'An unexpected server error occurred while updating the person. Please try again later.'; // Generic for DB/server issues
+        errorMessage = 'An unexpected server error occurred while updating the person. Please try again later.'; 
       } 
 
       return NextResponse.json({ error: errorMessage }, { status: response.status });
@@ -73,14 +73,14 @@ export async function DELETE(request: NextRequest, context: { params: { personId
     if (!response.ok) {
       let errorData;
       try {
-        errorData = await response.json(); // Parse backend error
+        errorData = await response.json(); 
       } catch {
         errorData = {};
       }
 
       let errorMessage = errorData.detail || 'Failed to delete person';
       if (response.status >= 500) {
-        errorMessage = 'An unexpected server error occurred while deleting the person. Please try again later.'; // Generic for DB/server issues
+        errorMessage = 'An unexpected server error occurred while deleting the person. Please try again later.'; 
       } 
 
       return NextResponse.json({ error: errorMessage }, { status: response.status });

@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 
       let errorMessage = errorData.detail || 'Failed to fetch persons';
       if (response.status >= 500) {
-        errorMessage = 'An unexpected server error occurred while fetching persons. Please try again later.'; // Generic for DB/server issues
+        errorMessage = 'An unexpected server error occurred while fetching persons. Please try again later.'; 
       } 
 
       return NextResponse.json({ error: errorMessage }, { status: response.status });
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
       let errorMessage = errorData.detail || 'Failed to create person';
       if (response.status >= 500) {
-        errorMessage = 'An unexpected server error occurred while creating the person. Please try again later.'; // Generic for DB/server issues
+        errorMessage = 'An unexpected server error occurred while creating the person. Please try again later.'; 
       } 
 
       return NextResponse.json({ error: errorMessage }, { status: response.status });

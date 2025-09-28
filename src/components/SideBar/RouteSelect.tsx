@@ -69,7 +69,7 @@ export const RouteSelect = () => {
   ];
 
   if (isLoading) {
-    return <div>Loading sidebar...</div>; // You can style this or make it a spinner
+    return <div>Loading sidebar...</div>; 
   }
 
   if (error) {

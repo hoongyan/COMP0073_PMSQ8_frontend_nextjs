@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect } from "react";
-import NextLink from "next/link";
 import {
   Alert,
   Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
-  Chip,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -18,7 +16,6 @@ import {
   Grid,
   IconButton,
   InputLabel,
-  Link,
   Paper as MuiPaper,
   Table,
   TableBody,
@@ -40,16 +37,13 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { green, orange, blue, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import {
   Add as AddIcon,
-  Archive as ArchiveIcon,
   FilterList as FilterListIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
   Delete as DeleteIcon,
   Edit as EditIcon,
   Search as SearchIcon,
-  Refresh as RefreshIcon,
 } from "@mui/icons-material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -390,7 +384,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: (theme) => theme.palette.primary.main + "33", // Semi-transparent
+          bgcolor: (theme) => theme.palette.primary.main + "33",
         }),
       }}
     >
@@ -728,7 +722,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
       <DialogContent sx={{ p: 4, backgroundColor: "grey.50" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {" "}
-          {/* Wrap in form for submit */}
+      
           <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid size={{ xs: 12 }}>
               <Typography variant="subtitle1" sx={{ fontWeight: "medium" }}>
@@ -972,7 +966,7 @@ const PersonEditDialog: React.FC<PersonEditDialogProps> = ({
         <Button onClick={handleSubmit(onSubmit)} variant="contained">
           Save
         </Button>{" "}
-        {/* Use handleSubmit */}
+ 
       </DialogActions>
     </Dialog>
   );
@@ -1456,13 +1450,6 @@ function EnhancedTable() {
         linkedReports={linkedReports}
         onClose={handleDetailsDialogClose}
       />
-      {/* <PersonEditDialog
-        open={editDialogOpen}
-        row={editRow}
-        onClose={handleEditDialogClose}
-        onSave={handleSaveEdit}
-        isCreate={isCreate}
-      /> */}
       {editDialogOpen && (
         <PersonEditDialog
           open={editDialogOpen}

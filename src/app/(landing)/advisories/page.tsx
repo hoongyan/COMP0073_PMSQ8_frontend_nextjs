@@ -11,7 +11,6 @@ import {
   Card,
   CardContent,
   Fade,
-  Link,
   List,
   ListItem,
   ListItemIcon,
@@ -24,15 +23,14 @@ import EmailIcon from "@mui/icons-material/Email";
 import GavelIcon from "@mui/icons-material/Gavel";
 import NextLink from "next/link";
 
-import Header from "@/components/landing/Header"; // Assuming the Header is in this path, adjust if needed
+import Header from "@/components/landing/Header"; 
 
 function Advisories() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header /> {/* Use the imported Header */}
+      <Header /> 
 
-      {/* Hero Section: Engaging Introduction to Advisories */}
       <Box
         sx={{
           position: "relative",
@@ -99,7 +97,7 @@ function Advisories() {
         </Fade>
       </Box>
 
-      {/* Main Content: Detailed Scam Advisories */}
+  
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography
           variant="h4"
@@ -386,7 +384,6 @@ function Advisories() {
         </Box>
       </Container>
 
-      {/* Footer */}
       <Box
         sx={{
           backgroundColor: "#001f3f",

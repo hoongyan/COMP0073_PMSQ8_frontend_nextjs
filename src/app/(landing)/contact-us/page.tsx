@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import React from "react";
@@ -10,25 +7,20 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import NextLink from "next/link";
-
-import Header from "@/components/landing/Header"; // Import the separate Header component
+import Header from "@/components/landing/Header"; 
 
 function ContactUs() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header /> {/* Use the imported Header here */}
+      <Header /> 
 
-      {/* Hero Section: Contact Introduction */}
       <Box
         sx={{
           position: "relative",
@@ -42,7 +34,7 @@ function ContactUs() {
           textAlign: "center",
         }}
       >
-        {/* Subtle Background Elements */}
+
         <Box
           sx={{
             position: "absolute",
@@ -79,7 +71,7 @@ function ContactUs() {
         </Container>
       </Box>
 
-      {/* Main Content: Contact Information */}
+
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Grid container spacing={6}>
           {/* Contact Details Section */}
@@ -192,7 +184,6 @@ function ContactUs() {
         </Grid>
       </Container>
 
-      {/* Footer: Simple and Informative */}
       <Box
         sx={{
           backgroundColor: "#001f3f",

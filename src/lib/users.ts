@@ -3,7 +3,7 @@ export type RowType = {
     firstName: string;
     lastName: string;
     sex: string;
-    dob: string;  // "YYYY-MM-DD" or ''
+    dob: string;  
     nationality: string;
     race: string;
     contactNo: string;
@@ -12,10 +12,10 @@ export type RowType = {
     street: string;
     unitNo: string;
     postCode: string;
-    registrationDate: string;  // "YYYY-MM-DD"
-    lastLoginDate: string;  // "YYYY-MM-DD" or "N/A"
-    role: string;  // e.g., "ADMIN"
-    status: string;  // e.g., "ACTIVE"
+    registrationDate: string; 
+    lastLoginDate: string;  
+    role: string;  
+    status: string;  
   };
   
   export async function fetchUsers(): Promise<RowType[]> {
@@ -66,8 +66,8 @@ export type RowType = {
       street: newUser.street,
       unit_no: newUser.unitNo,
       postcode: newUser.postCode,
-      role: newUser.role?.toUpperCase(),  // Backend expects uppercase like "ADMIN"
-      status: newUser.status?.toUpperCase() || 'PENDING',  // Default if not provided
+      role: newUser.role?.toUpperCase(),  
+      status: newUser.status?.toUpperCase() || 'PENDING',  
     };
     const response = await fetch(`/api/users`, {
       method: 'POST',
@@ -119,7 +119,7 @@ export type RowType = {
       postcode: updates.postCode,
       role: updates.role?.toUpperCase(),
       status: updates.status?.toUpperCase(),
-      password: updates.password,  // Optional for update (if provided, backend hashes it)
+      password: updates.password,  
     };
     
     // Remove undefined keys to allow partial updates

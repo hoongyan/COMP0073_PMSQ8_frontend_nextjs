@@ -1,4 +1,3 @@
-// app/about/page.tsx (assuming this is the about page; adjust path as needed)
 "use client";
 
 import React from "react";
@@ -12,23 +11,17 @@ import {
   Card,
   CardContent,
   Fade,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 import NextLink from "next/link";
 
-import Header from "@/components/landing/Header"; // Import the separate Header component
+import Header from "@/components/landing/Header"; 
 
 function About() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header /> {/* Use the imported Header here */}
+      <Header /> 
 
-      {/* Hero Section: Introduction to SPF */}
       <Box
         sx={{
           position: "relative",
@@ -42,7 +35,7 @@ function About() {
           textAlign: "center",
         }}
       >
-        {/* Subtle Background Elements */}
+
         <Box
           sx={{
             position: "absolute",
@@ -96,7 +89,7 @@ function About() {
         </Fade>
       </Box>
 
-      {/* Main Content Sections: Mission, Vision, Values, History, Facts */}
+
       <Container maxWidth="lg" sx={{ py: 8 }}>
         {/* Mission Section */}
         <Box sx={{ mb: 8 }}>
@@ -233,7 +226,6 @@ function About() {
         </Box>
       </Container>
 
-      {/* Footer: Simple and Informative */}
       <Box
         sx={{
           backgroundColor: "#001f3f",

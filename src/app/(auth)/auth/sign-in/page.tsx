@@ -15,7 +15,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   CircularProgress, 
 } from "@mui/material";
@@ -161,19 +160,14 @@ function SignIn() {
                 Secure access for police officers and analysts.
               </Typography>
               <Suspense fallback={<CircularProgress size={24} />}>
-              <ErrorMessage />  {/* NEW: Use the extracted component */}
+              <ErrorMessage />  
               </Suspense>
-              {/* {errorMessage && (
-                <Alert severity="error" sx={{ mb: 3 }}>
-                  {errorMessage}
-                </Alert>
-              )} */}
               {submissionStatus === "error" && ( 
                 <Alert severity="error" sx={{ mb: 3 }}>
                   {submissionMessage}
                 </Alert>
               )}
-              {/* Inline Sign-In Form */}
+         
               <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}> 
                 <Controller
                   name="email"

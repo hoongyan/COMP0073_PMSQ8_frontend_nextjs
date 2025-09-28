@@ -18,24 +18,19 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Link,
   LinearProgress,  
   CircularProgress, 
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';  
-// import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'; 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { DatePicker, AdapterDateFns, LocalizationProvider } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import { useForm, Controller } from 'react-hook-form';  
 import { yupResolver } from '@hookform/resolvers/yup'; 
 import * as yup from 'yup';  
 import zxcvbn from 'zxcvbn';  
-
 import Header from "@/components/landing/Header"; 
 import { signup, SignupData } from '@/lib/auth'; 
 
@@ -60,13 +55,13 @@ const signupSchema = yup.object({
 type SignupFormData = yup.InferType<typeof signupSchema>;  
 
 
-function ErrorMessage() {  // NEW: Extracted component for error handling
+function ErrorMessage() {  
   const searchParams = useSearchParams();
   const rawError = searchParams.get("error");
 
   const errorMap: Record<string, string> = {
     RegistrationFailed: "Registration failed. Please try again.",
-    // Add more error mappings as needed for production
+  
   };
 
   const errorMessage = rawError ? errorMap[rawError] : null;
@@ -79,16 +74,6 @@ function ErrorMessage() {  // NEW: Extracted component for error handling
 }
 
 function SignUp() {
-  // const searchParams = useSearchParams();
-  // const rawError = searchParams.get("error");
-
-  // const errorMap: Record<string, string> = {
-  //   RegistrationFailed: "Registration failed. Please try again.",
-  //   // Add more error mappings as needed for production
-  // };
-
-  // const errorMessage = rawError ? errorMap[rawError] : null;
-
   const { control, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<SignupFormData>({
     resolver: yupResolver(signupSchema),
     defaultValues: {
@@ -117,7 +102,7 @@ function SignUp() {
   const strengthLabel = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'][strengthScore];
   const strengthColor = ['error', 'error', 'warning', 'info', 'success'][strengthScore];
 
-  // State for submission status
+
   const [submissionStatus, setSubmissionStatus] = React.useState<"idle" | "success" | "error">("idle");
   const [submissionMessage, setSubmissionMessage] = React.useState("");
 
@@ -151,7 +136,7 @@ function SignUp() {
         console.error("Signup error:", error);
         let message = "Registration submission encountered an issue. Please try again later or contact support.";
         if (error.message.includes('Email already registered')) {
-          message = error.message;  // Specific from auth.ts
+          message = error.message; 
         } else if (error.message.includes('Invalid')) {
           message = 'Invalid input: ' + error.message;  
         }
@@ -240,10 +225,10 @@ function SignUp() {
       <CssBaseline />
       <Header />
 
-      {/* Main Content: Centralized Sign-Up with Creative Design */}
+
       <Box
         sx={{
-          minHeight: "calc(100vh - 80px)", // Adjusted height for the header
+          minHeight: "calc(100vh - 80px)", 
           background: "linear-gradient(135deg, #001f3f 0%, #004080 100%)",
           display: "flex",
           alignItems: "center",
@@ -252,7 +237,7 @@ function SignUp() {
           overflow: "hidden",
         }}
       >
-        {/* Subtle Background Elements */}
+  
         <Box
           sx={{
             position: "absolute",
@@ -267,7 +252,7 @@ function SignUp() {
           }}
         />
         <Fade in timeout={800}>
-          <Container maxWidth="sm">  {/* Increased width for better layout */}
+          <Container maxWidth="sm"> 
             <Box
               sx={{
                 padding: "32px 24px",
@@ -288,13 +273,9 @@ function SignUp() {
               >
                 Create Your Account
               </Typography>
-              {/* {errorMessage && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {errorMessage}
-                </Alert>
-              )} */}
-              <Suspense fallback={<CircularProgress size={24} />}>  {/* NEW: Wrap in Suspense */}
-                <ErrorMessage />  {/* NEW: Use the extracted component */}
+
+              <Suspense fallback={<CircularProgress size={24} />}>  
+                <ErrorMessage /> 
               </Suspense>
               {submissionStatus === "error" && (
                 <Alert severity="error" sx={{ mb: 2 }}>
@@ -303,7 +284,7 @@ function SignUp() {
               )}
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>
-                  {/* Email and Password first */}
+                
                   <Grid size={{ xs: 12 }}>
                     <Controller
                       name="email"
@@ -375,7 +356,7 @@ function SignUp() {
                       )}
                     />
                   </Grid>
-                  {/* Other required fields */}
+       
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <Controller
                       name="firstName"
@@ -435,7 +416,7 @@ function SignUp() {
                       )}
                     />
                   </Grid>
-                  {/* Optional fields */}
+              
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <FormControl fullWidth margin="dense" required>
                       <InputLabel id="sex-label">Sex</InputLabel>

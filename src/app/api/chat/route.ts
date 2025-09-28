@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetch,Agent } from 'undici';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'; // Use non-public env var for server-side
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'; 
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const agent = new Agent({  // Custom agent for timeouts
-      headersTimeout: 600000,  // 10 minutes
+    const agent = new Agent({  
+      headersTimeout: 600000,  
       bodyTimeout: 600000,
       connectTimeout: 30000
     });
