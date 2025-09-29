@@ -2,6 +2,14 @@
 
 This code depicts the frontend client setup of the ScamOrien Web Application. It is deployed on Vercel.
 
+## Setup Prerequisites
+
+Prior to setting up the repository for use, please ensure that the following prerequisites have been installed into the environment.
+
+- Node.js v24.1.0 - (If not installed) Install this version from Node.js official website.
+
+## Installation Steps
+
 1. **Clone the Repository**  
    After copying or cloning the code repository, navigate to the project directory:
 
