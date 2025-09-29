@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## ScamOrion Web App Frontend Client Setup
 
-## Getting Started
+This code depicts the frontend client setup of the ScamOrien Web Application. It is deployed on Vercel.
 
-First, run the development server:
+1. **Clone the Repository**  
+   After copying or cloning the code repository, navigate to the project directory:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+   git clone <this-repository-url>
+   cd <project-directory>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Configure Environment Variables**  
+   Create a `.env` file with the following variable (refer to the `COMP0073_Environment_Variables_PMSQ8.docx` for environment variable template):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `NEXT_PUBLIC_API_URL` (Ensure URL matches your backend FastAPI server).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Install Node Dependencies**  
+   Install dependencies via:
 
-## Learn More
+```
 
-To learn more about Next.js, take a look at the following resources:
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Start the Application**  
+   Build and start the application using:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+npm run build
+npm run start
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Verify the Setup**  
+   Open [http://localhost:3000](http://localhost:3000) in your browser. Ensure the backend is running first.
